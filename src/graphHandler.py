@@ -18,10 +18,6 @@ class Graph:
         self.x = x
         self.y = y
 
-
-    def __f(self):
-        pass
-
     def drawGraph(self, **options):
         lenX = len(self.x.values)
         lenY = len(self.y.values)

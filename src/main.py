@@ -4,6 +4,7 @@ from graphHandler import *
 import logging
 
 if __name__ == '__main__':
+    # logging.basicConfig(fsilename='logs.log', encoding='utf-8', level=logging.INFO)
 
     db = DbProvider(POSTGRES_CONNECTION)
     result = DbRequester.getData(
@@ -11,6 +12,7 @@ if __name__ == '__main__':
         DB_TABLES['Notes'],
         fields=['id', 'date_creation'])
 
+    # logging.info(str(f'Read data (count:{len(result)})'))
     # print(f'Read data (count:{len(result)}):', "\n\t".join(map(str, result)))
 
     graph = Graph(
