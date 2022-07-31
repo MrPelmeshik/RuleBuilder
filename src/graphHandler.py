@@ -30,12 +30,12 @@ class Graph:
         offset = options['offset'] if 'offset' in options.keys() else 0
         limit = options['limit'] if 'limit' in options.keys() else count - offset
 
-        if limit > count or limit + offset > count:
+        if limit > count or limit + offset > count or offset >= count:
             raise Exception(f'Filter limit({limit}) or offset({offset}) incorrect (count data:{count} row)')
         else:
             newX = []
             newY = []
-            for i in range(offset, limit):
+            for i in range(offset, limit + offset):
                 newX.append(x[i])
                 newY.append(y[i])
 
