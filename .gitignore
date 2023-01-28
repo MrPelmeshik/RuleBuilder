@@ -1,4 +1,5 @@
-
-src/logger.log
-src/__pycache__
-src/.idea
+__pycache__
+.idea
+env
+settings.json
+src/logs/*
