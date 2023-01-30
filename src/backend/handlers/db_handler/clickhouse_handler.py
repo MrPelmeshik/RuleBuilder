@@ -2,7 +2,7 @@ import copy
 import logging
 from contextlib import closing
 import clickhouse_connect
-from src.handlers.connection_param import ConnectionParam
+from ..connection_param import ConnectionParam
 
 
 class ClickhouseHandler:

@@ -1,7 +1,6 @@
 import copy
 import logging
-
-from src.handlers.connection_param import ConnectionParam
+from ..connection_param import ConnectionParam
 from contextlib import closing
 import psycopg2
 
