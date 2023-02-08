@@ -1,0 +1,10 @@
+.algoritmCreatorMenu {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1vh;
+    max-width: 10vw;
+    overflow-wrap: anywhere;
+
+    background-color: var(--color-bg-secondary);
+    padding: var(--rounded);
+}

@@ -1,0 +1,30 @@
+.table-data-preview {
+    background-color: var(--color-bg-default);
+    border-collapse: collapse;
+    width: 100%;
+
+    font-size: 0.75em;
+}
+
+.table-block {
+    width: 79vw;
+    max-height: 20vh;
+    overflow: scroll;
+
+}
+
+.table-data-body {
+}
+
+.table-data-preview th {
+    background-color: var(--color-bg-ghost);
+}
+
+.table-data-preview tr {
+    border: solid 1px var(--color-control-bg-border-default);
+}
+
+
+.table-data-preview tr:nth-child(odd) {
+    background-color: var(--color-bg-ghost);
+}

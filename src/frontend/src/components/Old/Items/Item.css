@@ -1,0 +1,33 @@
+.item {
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--rounded);
+}
+
+.item:not(:first-child) {
+    margin: 1vh 0;
+}
+
+.item-header {
+    background-color: var(--color-bg-ghost);
+    border-radius: var(--rounded) var(--rounded) 0 0;
+    padding: var(--rounded);
+
+    display: flex;
+    justify-content: space-between;
+
+    font-size: small;
+}
+
+.item-header-left-side {
+    color: var(--color-typo-secondary);
+    font-weight: bold;
+}
+
+.item-header-right-side {
+
+}
+
+.item-content {
+    border-radius: var(--rounded);
+    padding: var(--rounded);
+}

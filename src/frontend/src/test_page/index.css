@@ -1,0 +1,11 @@
+.main {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    height: 100px;
+}
+
+.item {
+    flex-grow: 1;
+    background-color: red;
+}

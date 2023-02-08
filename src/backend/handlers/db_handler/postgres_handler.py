@@ -3,6 +3,9 @@ import logging
 from ..connection_param import ConnectionParam
 from contextlib import closing
 import psycopg2
+from src.backend.handlers.type_handler.schema_type import schema_type
+from src.backend.handlers.type_handler.table_type import table_type
+from ..type_handler.column_table_type import column_table_type
 
 
 class PostgresqlHandler:
@@ -55,7 +58,7 @@ class PostgresqlHandler:
 
         return result
 
-    def getData(self, schema:str, table:str, **options):
+    def getData(self, schema: str, table: str, **options):
         '''
         Формирование и исполнение SELECT запросов
         :param schema: название схемы
@@ -66,9 +69,48 @@ class PostgresqlHandler:
         '''
         ids = options['ids'] if 'ids' in options.keys() else None
         fields = options['fields'] if 'fields' in options.keys() else '*'
+        limit = options['limit'] if 'limit' in options.keys() else ''
+        offset = options['offset'] if 'offset' in options.keys() else ''
 
         query = f'select {", ".join(map(str, fields))} from {schema}.{table}'
         if ids is not None:
             query += f' where id in ({", ".join(map(str, ids))})'
+        if limit is not None:
+            query += f' limit {limit}'
+        if offset is not None:
+            offset += f' offset {offset}'
 
         return self.queryExecute(query)
+
+    def getAllSchema(self):
+        '''
+        Получение всех схем БД
+
+            select schema_name
+            from information_schema.schemata;
+        '''
+        query = 'select schema_name from information_schema.schemata'
+
+        return [schema_type.convertPostgresSchemaToSchema(pgSchema=schema) for schema in self.queryExecute(query)]
+
+    def getAllTablesBySchema(self, schema: str):
+        '''
+        Получение всех таблиц схемы в БД
+        '''
+        query = f'select table_name from information_schema.tables where table_schema = \'{schema}\''
+
+        return [table_type.convertPostgresTableToTable(pgTable=table) for table in self.queryExecute(query)]
+
+    def getColumnsByTable(self, schema: str, table: str):
+        '''
+        Получение информации о полях таблицы
+        '''
+        query = f'select column_name, data_type from information_schema.columns where table_schema = \'{schema}\' and table_name =  \'{table}\''
+
+        return [column_table_type.convertPostgresColumnToColumn(pgColumn=column) for column in self.queryExecute(query)]
+
+    def getPreviewDataForTable(self, schema: str, table: str):
+        '''
+        Получение примера данных с источника
+        '''
+        return self.getData(schema, table, limit=10)

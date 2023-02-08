@@ -17,13 +17,17 @@ class ConnectionParam:
             self.database = None
             self.port = None
             self.host = None
+            self.type = None
             self.name = None
+            self.id = None
 
     def getParam(self, connectionName:str):
         for connection in self.connections:
             if connection['name'] == connectionName:
                 logging.info(f'Getting connection param for \'{connectionName}\'')
+                self.id = connection['id']
                 self.name = connection['name']
+                self.type = connection['type']
                 self.host = connection['host']
                 self.port = connection['port']
                 self.database = connection['database']
@@ -32,4 +36,4 @@ class ConnectionParam:
                 self.password = connection['password']
 
     def toString(self):
-        return f"name:{self.name} address:{self.host}:{self.port} db:{self.database} defaultShema:{self.defaultShema} user:{self.user} password:{self.password}"
+        return f"id:{self.id} name:{self.name} type:{self.type} address:{self.host}:{self.port} db:{self.database} defaultShema:{self.defaultShema} user:{self.user} password:{self.password}"
