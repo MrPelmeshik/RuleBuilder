@@ -1,3 +1,6 @@
 :root {
-    --rounded: 0.5em;
+    --rounded-m: 0.5em;
+    --rounded-s: 0.3em;
+    --rounded-xs: 0.2em;
+    --rounded-xxs: 0.1em;
 }

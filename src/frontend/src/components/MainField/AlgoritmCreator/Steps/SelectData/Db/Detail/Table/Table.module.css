@@ -1,4 +1,4 @@
-.table-data-preview {
+.tableDataPreview {
     background-color: var(--color-bg-default);
     border-collapse: collapse;
     width: 100%;
@@ -6,25 +6,25 @@
     font-size: 0.75em;
 }
 
-.table-block {
-    width: 79vw;
-    max-height: 20vh;
+.tableBlock {
+    flex-grow: 1;
+    height: 10vh;
     overflow: scroll;
 
 }
 
-.table-data-body {
+.tableDataBody {
 }
 
-.table-data-preview th {
+.tableDataPreview th {
     background-color: var(--color-bg-ghost);
 }
 
-.table-data-preview tr {
+.tableDataPreview tr {
     border: solid 1px var(--color-control-bg-border-default);
 }
 
 
-.table-data-preview tr:nth-child(odd) {
+.tableDataPreview tr:nth-child(odd) {
     background-color: var(--color-bg-ghost);
 }

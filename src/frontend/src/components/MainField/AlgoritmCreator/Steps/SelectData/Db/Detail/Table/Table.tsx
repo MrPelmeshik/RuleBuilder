@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import './Table.css'
+import tableStyle from './Table.module.css'
 
 export const Table:React.FC<{dataPreview:any[] | null}> = ({dataPreview}) => {
     const [tableHeaders, setTableHeaders] = useState<string[]>(['title'])
@@ -26,9 +26,9 @@ export const Table:React.FC<{dataPreview:any[] | null}> = ({dataPreview}) => {
             <td>{row[hdr]}</td>)}</tr>))
     }, [tableHeaders, tableData])
 
-    return <div className={'table-block'}>
-        <table className={'table-data-preview'}>
-            <tbody className={'table-data-body'}>
+    return <div className={tableStyle.tableBlock}>
+        <table className={tableStyle.tableDataPreview}>
+            <tbody className={tableStyle.tableDataBody}>
             <tr>{header}</tr>
             {data}
             </tbody>

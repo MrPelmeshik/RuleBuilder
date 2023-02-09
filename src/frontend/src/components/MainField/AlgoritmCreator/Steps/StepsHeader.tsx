@@ -2,13 +2,18 @@ import mainFiledStyle from "../../MainField.module.css";
 import {Button} from "@consta/uikit/Button";
 import {IconSettings} from "@consta/icons/IconSettings";
 import {IconClose} from "@consta/icons/IconClose";
-import React, {Dispatch} from "react";
+import React, {Dispatch, useState} from "react";
+import {StepSettingModal} from "./StepSettingModal/StepSettingModal";
+import {StepTypeOld} from "./StepType";
 
 export const StepsHeader
-    :React.FC<{title:string, subTitle:string, id:number, setDeletedStepId:Dispatch<number|null>}>
-    = ({title, subTitle, id, setDeletedStepId}) =>
+    :React.FC<{title:string, subTitle:string, stepType:StepTypeOld, setDeletedStepId:Dispatch<number|null>}>
+    = ({title, subTitle, stepType, setDeletedStepId}) =>
 {
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+
     return <div className={mainFiledStyle.stepPreviewHeader}>
+        <StepSettingModal title={title} stepType={stepType} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         <div className={mainFiledStyle.stepPreviewHeaderLeftSide}>
             {title}
             <div className={mainFiledStyle.stepPreviewHeaderDetail}>{subTitle}</div>
@@ -16,13 +21,13 @@ export const StepsHeader
         <div className={mainFiledStyle.stepPreviewHeaderRightSide}>
             <Button iconRight={IconSettings}
                     onlyIcon
-                    onClick={() => setDeletedStepId(id)}
+                    onClick={() => setIsModalOpen(true)}
                     size={'xs'}
                     view={'ghost'}
             />
             <Button iconRight={IconClose}
                     onlyIcon
-                    onClick={() => setDeletedStepId(id)}
+                    onClick={() => setDeletedStepId(stepType.id)}
                     size={'xs'}
                     view={'ghost'}
             />

@@ -1,6 +1,6 @@
 .item {
     background-color: var(--color-bg-secondary);
-    border-radius: var(--rounded);
+    border-radius: var(--rounded-m);
 }
 
 .item:not(:first-child) {
@@ -9,8 +9,8 @@
 
 .item-header {
     background-color: var(--color-bg-ghost);
-    border-radius: var(--rounded) var(--rounded) 0 0;
-    padding: var(--rounded);
+    border-radius: var(--rounded-m) var(--rounded-m) 0 0;
+    padding: var(--rounded-m);
 
     display: flex;
     justify-content: space-between;
@@ -28,6 +28,6 @@
 }
 
 .item-content {
-    border-radius: var(--rounded);
-    padding: var(--rounded);
+    border-radius: var(--rounded-m);
+    padding: var(--rounded-m);
 }

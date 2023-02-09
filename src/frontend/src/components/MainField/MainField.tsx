@@ -1,35 +1,30 @@
 import mainFiledStyle from './MainField.module.css';
 import {useEffect, useState} from "react";
-import {AlgoritmCreatorMenu} from "./AlgoritmCreator/Menu/AlgoritmCreatorMenu";
-import {StepType} from "./AlgoritmCreator/StepType";
+import {AlgorithmCreatorMenu} from "./AlgoritmCreator/Menu/AlgorithmCreatorMenu";
+import {StepTypeOld} from "./AlgoritmCreator/Steps/StepType";
+import {StepsEnum} from "./AlgoritmCreator/Steps/StepsEnum";
 
 export const MainField = () => {
     const [stepsElements, setStepsElements] = useState<JSX.Element[]>([])
-    const [steps, setSteps] = useState<StepType[]>([])
+    // const [steps, setSteps] = useState<StepType[]>([])
     const [deletedStepId, setDeletedStepId] = useState<number | null>()
-    const [stepIdForOpenSettings, setStepIdForOpenSettings] = useState<number | null>()
 
     useEffect(() => {
-        setStepsElements([...(stepsElements.filter(x => x.props.id !== deletedStepId))])
-        setSteps([...(steps.filter(x => x.id !== deletedStepId))])
-        setDeletedStepId(null)
+        if(deletedStepId) {
+            setStepsElements([...(stepsElements.filter(x => x.props.stepType.id !== deletedStepId))])
+            // setSteps([...(steps.filter(x => x.props.stepType.id !== deletedStepId))])
+            setDeletedStepId(null)
+        }
     }, [deletedStepId])
 
-    const addStep = (item:JSX.Element) => {
+    const addStep = (item:JSX.Element, type:StepTypeOld) => {
         setStepsElements([...stepsElements, item])
-
-        const newStep:StepType = {
-            id:Number(item.key),
-            stepType: item.type,
-            position: steps.length,
-            detail: 'детализация'
-        }
-        setSteps([...steps, newStep])
+        // setSteps([...steps, type])
     }
     const getNextStepId = ():number => Math.max(0, ...stepsElements.map(x => Number(x.key))) + 1
 
     return <div className={mainFiledStyle.mainField}>
-        <AlgoritmCreatorMenu addStep={addStep} nextStepId={getNextStepId()} setDeletedStepId={setDeletedStepId}/>
+        <AlgorithmCreatorMenu addStep={addStep} nextStepId={getNextStepId()} setDeletedStepId={setDeletedStepId}/>
         <div className={mainFiledStyle.algoritmFlow}>
             {stepsElements.length ? stepsElements : <div>В алгоритме еще нет ни одного шага</div>}
         </div>

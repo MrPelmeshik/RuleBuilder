@@ -1,32 +1,47 @@
 import previewSelectDbDataStepStyle from './PreviewSelectDbDataStep.module.css'
+import isDeepEqual from 'fast-deep-equal/react'
 import mainFiledStyle from "../../../../../MainField.module.css";
-import React, {Dispatch} from "react";
+import React, {Dispatch, useEffect, useRef, useState} from "react";
 import {StepsHeader} from "../../../StepsHeader";
+import {StepTypeOld} from "../../../StepType";
+import {SelectDataStepType} from "../../Types/SelectDataStepType";
+import {IStep} from "../../../IStep";
 
 
-export const PreviewSelectDbDataStep:React.FC<{id:number, setDeletedStepId:Dispatch<number|null>}> = ({id, setDeletedStepId}) => {
+export const PreviewSelectDbDataStep
+    :React.FC<{stepType:StepTypeOld, setDeletedStepId:Dispatch<number|null>}>
+    = ({stepType, setDeletedStepId}) =>
+{
+    const [subTitle, setSubTitle] = useState('')
+    const curStepTypeDetail = useRef(stepType.detail)
 
     const source = 'test_local'
-    const schema = 'test_schema'
-    const table = 'test_table'
+    const schema = null
+    const table = null
 
-    const getSourceDetails = ():string => {
+    if(!isDeepEqual(curStepTypeDetail.current, stepType.detail)) {
+        curStepTypeDetail.current = stepType.detail
+    }
+
+    useEffect(() => {
+        console.log(stepType.detail)
         let headerDetail = ''
-        if (source) {
-            headerDetail = `из ${source}`
+        let detail = stepType.detail as SelectDataStepType
+        if (detail as SelectDataStepType && detail.source) {
+            headerDetail = `из ${detail.source.name}`
             if (schema) {
                 headerDetail += `\tисточник:\t${schema}`
                 if (table)
                     headerDetail += `.${table}`
             }
         }
-        return headerDetail
-    }
+        setSubTitle(headerDetail)
+    }, [curStepTypeDetail])
     const getTitle = ():string => 'Чтение данных'
 
 
     return <div className={mainFiledStyle.stepPreview}>
-        <StepsHeader title={getTitle()} subTitle={getSourceDetails()} id={id} setDeletedStepId={setDeletedStepId} />
+        <StepsHeader title={getTitle()} subTitle={subTitle} stepType={stepType} setDeletedStepId={setDeletedStepId} />
         <div className={mainFiledStyle.stepPreviewDescription}>
             PreviewSelectDbDataStep description
         </div>

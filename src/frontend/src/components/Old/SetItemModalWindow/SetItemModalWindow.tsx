@@ -3,7 +3,7 @@ import {Text} from "@consta/uikit/Text";
 import {Button} from "@consta/uikit/Button";
 import {Modal} from "@consta/uikit/Modal";
 import React, {Dispatch, useState} from "react";
-import {SelectItem} from "../Items/SelectItem/SelectItem";
+import {DetailSelectDbDataStep} from "../../MainField/AlgoritmCreator/Steps/SelectData/Db/Detail/DetailSelectDbDataStep";
 import {Select} from "@consta/uikit/Select";
 
 

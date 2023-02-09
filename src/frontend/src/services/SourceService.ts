@@ -1,11 +1,11 @@
-import {SourceType} from "../types/SourceType";
 import {SchemaType} from "../types/SchemaType";
 import {TableType} from "../types/TableType";
 import {TableColumnType} from "../types";
+import {DbSourceType} from "../components/MainField/AlgoritmCreator/Steps/SelectData/Types/DbSourceType";
 
 // https://jasonwatmore.com/post/2020/01/27/react-fetch-http-get-request-examples
 
-export const getAllSource = async ():Promise<SourceType[]> => {
+export const getAllSource = async ():Promise<DbSourceType[]> => {
     const response = await fetch('http://127.0.0.1:5000/getAllSource')
     return await response.json()
 }

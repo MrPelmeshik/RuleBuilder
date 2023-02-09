@@ -1,4 +1,4 @@
 export enum StepsEnum {
-    'reviewCheckStep',
-    'reviewSelectDbDataStep',
+    'checkStep',
+    'selectDbDataStep',
 }
