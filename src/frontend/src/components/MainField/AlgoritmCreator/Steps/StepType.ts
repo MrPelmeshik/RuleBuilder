@@ -1,5 +1,4 @@
 import {StepsEnum} from "./StepsEnum";
-import {SelectDataStepType} from "./SelectData/Types/SelectDataStepType";
 import {IStep} from "./IStep";
 
 export abstract class StepType implements IStep {
@@ -12,12 +11,4 @@ export abstract class StepType implements IStep {
     public id: number;
     public position: number;
     public type: StepsEnum;
-
-}
-
-export type StepTypeOld = {
-    id: number
-    type: StepsEnum
-    position: number
-    detail?: SelectDataStepType | string
 }

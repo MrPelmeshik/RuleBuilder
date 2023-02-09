@@ -13,18 +13,18 @@ import {Table} from "./Table/Table";
 import {CollapseGroup} from "@consta/uikit/CollapseGroup";
 import {IconFilter} from "@consta/icons/IconFilter";
 import {Text} from "@consta/uikit/Text";
-import {SelectItemType, CollapseItemType, TableColumnType} from "../../../../../../../types";
 import {IconEye} from "@consta/icons/IconEye";
 import {IconSettings} from "@consta/icons/IconSettings";
 import {Switch} from "@consta/uikit/Switch";
 import {FilterConfigurator} from "./FilterConfigurator/FilterConfigurator";
-import {StepTypeOld} from "../../../StepType";
-import {SelectDataType} from "../../Types/SelectDataType";
-import {DbSourceType} from "../../Types/DbSourceType";
+import {StepType} from "../../../StepType";
+import {MetaType} from "../Types/MetaType";
+import {SourceMetaType} from "../Types/SourceMetaType";
+import {SelectItemType} from "../../../../../../../Types/SelectItemType";
 
 
 export const DetailSelectDbDataStep
-    :React.FC<{stepType: StepTypeOld}>
+    :React.FC<{stepType: StepType}>
     = ({stepType}) =>
 {
     const [sourceItem, setSourceItem] = useState<SelectItemType | null>()
@@ -35,7 +35,7 @@ export const DetailSelectDbDataStep
     const [schemasItems, setSchemasItems] = useState<SelectItemType[]>([])
     const [tablesItems, setTablesItems] = useState<SelectItemType[]>([])
 
-    const [sources, setSources] = useState<DbSourceType[]>([])
+    const [sources, setSources] = useState<SourceMetaType[]>([])
     // const [schemas, setSchemas] = useState<any[]>([])
     // const [tables, setTables] = useState<any[]>([])
 
@@ -54,16 +54,13 @@ export const DetailSelectDbDataStep
             getAllSchemaBySource(sourceItem.label).then(response => setSchemasItems(() => {
                 const schemaList: SelectItemType[] = []
                 for (let i = 0; i < response.length; i++) {
-                    schemaList.push({
+                    /*schemaList.push({
                         label: response[i].schemaName,
                         id: i
-                    })
+                    })*/
                 }
                 return schemaList
             }))
-            stepType.detail = {
-                source: sources.filter(source => source.id === sourceItem.id)[0]
-            }
         }
         setSchemaItem(null)
     }, [sourceItem, sourcesItems])

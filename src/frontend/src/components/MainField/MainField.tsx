@@ -1,8 +1,7 @@
 import mainFiledStyle from './MainField.module.css';
 import {useEffect, useState} from "react";
 import {AlgorithmCreatorMenu} from "./AlgoritmCreator/Menu/AlgorithmCreatorMenu";
-import {StepTypeOld} from "./AlgoritmCreator/Steps/StepType";
-import {StepsEnum} from "./AlgoritmCreator/Steps/StepsEnum";
+import {StepType} from "./AlgoritmCreator/Steps/StepType";
 
 export const MainField = () => {
     const [stepsElements, setStepsElements] = useState<JSX.Element[]>([])
@@ -17,7 +16,7 @@ export const MainField = () => {
         }
     }, [deletedStepId])
 
-    const addStep = (item:JSX.Element, type:StepTypeOld) => {
+    const addStep = (item:JSX.Element, type:StepType) => {
         setStepsElements([...stepsElements, item])
         // setSteps([...steps, type])
     }

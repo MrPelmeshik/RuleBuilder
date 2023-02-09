@@ -5,17 +5,34 @@ import {Text} from "@consta/uikit/Text";
 import {IconAdd} from "@consta/icons/IconAdd";
 import {Dispatch} from "react";
 import {StepsEnum} from "../Steps/StepsEnum";
-import {StepTypeOld} from "../Steps/StepType";
+import {StepType} from "../Steps/StepType";
+import {SelectDbDataStepType} from "../Steps/SelectData/Db/Types/SelectDbDataStepType";
 
 
 export const AlgorithmCreatorMenu
     :React.FC<{addStep:Function, nextStepId:number, setDeletedStepId:Dispatch<number|null>}>
     = ({addStep, nextStepId, setDeletedStepId}) => {
-    const getNewStep = (type: StepsEnum): StepTypeOld => ({
-        id: nextStepId,
-        type: type,
-        position: -1
-    })
+    const addNextStep = (type: StepsEnum) => {
+        let nextStep:StepType | null = null
+        switch (type) {
+            case StepsEnum.selectDbDataStep:
+                nextStep = new SelectDbDataStepType(nextStepId, -1)
+                addStep(<PreviewSelectDbDataStep key={nextStepId}
+                                                 stepType={nextStep}
+                                                 setDeletedStepId={setDeletedStepId}
+                />, nextStep)
+                break;
+            case StepsEnum.checkStep:
+                nextStep = new SelectDbDataStepType(nextStepId, -1)
+                addStep(<PreviewCheckStep key={nextStepId}
+                                          stepType={nextStep}
+                                          setDeletedStepId={setDeletedStepId}
+                />, nextStep)
+                break;
+            default:
+                throw new Error(`Нет такого шага! ${type}`)
+        }
+    }
 
     return <div className={algorithmCreatorMenuStyle.algorithmCreatorMenu}>
         <Text as={'b'} view={'primary'} size={'s'}>
@@ -32,13 +49,7 @@ export const AlgorithmCreatorMenu
                     <Button
                         label={' БД'}
                         title={'Добавить шаг считывания данных из БД'}
-                        onClick={() => {
-                            const newType = getNewStep(StepsEnum.selectDbDataStep)
-                            addStep(<PreviewSelectDbDataStep key={nextStepId}
-                                                             stepType={newType}
-                                                             setDeletedStepId={setDeletedStepId}
-                            />, newType)
-                        }}
+                        onClick={() => addNextStep(StepsEnum.selectDbDataStep)}
                         size={'xs'}
                         view={'ghost'}
                         iconLeft={IconAdd}
@@ -95,13 +106,7 @@ export const AlgorithmCreatorMenu
                     <Button
                         label={'Проверка'}
                         title={'Добавить шаг проверки'}
-                        onClick={() => {
-                            const newType = getNewStep(StepsEnum.checkStep)
-                            addStep(<PreviewCheckStep key={nextStepId}
-                                                      stepType={newType}
-                                                      setDeletedStepId={setDeletedStepId}
-                            />, newType)
-                        }}
+                        onClick={() => addNextStep(StepsEnum.checkStep)}
                         size={'xs'}
                         view={'ghost'}
                         iconLeft={IconAdd}

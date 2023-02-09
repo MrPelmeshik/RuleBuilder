@@ -7,11 +7,11 @@ import mainFiledStyle from "../../../MainField.module.css";
 import {IconClose} from "@consta/icons/IconClose";
 import {IconSave} from "@consta/icons/IconSave";
 import {DetailSelectDbDataStep} from "../SelectData/Db/Detail/DetailSelectDbDataStep";
-import {StepTypeOld} from "../StepType";
+import {StepType} from "../StepType";
 import {StepsEnum} from "../StepsEnum";
 
 
-const getComponentDetail = (stepType:StepTypeOld) => {
+const getComponentDetail = (stepType:StepType) => {
   if (stepType.type === StepsEnum.selectDbDataStep) {
     return <DetailSelectDbDataStep stepType={stepType}/>;
   }
@@ -21,7 +21,7 @@ const getComponentDetail = (stepType:StepTypeOld) => {
 };
 
 export const StepSettingModal
-    :React.FC<{title:string, stepType:StepTypeOld, isModalOpen:boolean, setIsModalOpen:Dispatch<boolean>}>
+    :React.FC<{title:string, stepType:StepType, isModalOpen:boolean, setIsModalOpen:Dispatch<boolean>}>
     = ({title, stepType, isModalOpen, setIsModalOpen}) =>
 {
     return <Modal

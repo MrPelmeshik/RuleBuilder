@@ -4,10 +4,10 @@ import {IconSettings} from "@consta/icons/IconSettings";
 import {IconClose} from "@consta/icons/IconClose";
 import React, {Dispatch, useState} from "react";
 import {StepSettingModal} from "./StepSettingModal/StepSettingModal";
-import {StepTypeOld} from "./StepType";
+import {StepType} from "./StepType";
 
 export const StepsHeader
-    :React.FC<{title:string, subTitle:string, stepType:StepTypeOld, setDeletedStepId:Dispatch<number|null>}>
+    :React.FC<{title:string, subTitle:string, stepType:StepType, setDeletedStepId:Dispatch<number|null>}>
     = ({title, subTitle, stepType, setDeletedStepId}) =>
 {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
