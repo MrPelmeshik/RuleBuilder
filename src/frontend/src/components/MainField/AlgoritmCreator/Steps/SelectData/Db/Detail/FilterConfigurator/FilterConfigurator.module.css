@@ -1,3 +1,11 @@
+.filterComplex {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1vh;
+    align-items: flex-start;
+    flex-grow: 1;
+}
+
 .filterComplexFiled {
     display: flex;
     flex-direction: column;

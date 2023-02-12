@@ -10,7 +10,7 @@
 }
 
 .algorithmCreatorMenuListItem {
-    overflow-x: scroll;
+    /*overflow-y: scroll;*/
     display: flex;
     flex-direction: column;
     row-gap: 2vh;

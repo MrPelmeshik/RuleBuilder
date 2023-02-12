@@ -7,6 +7,9 @@ import {SelectItemType} from "../../../../../../../../../../Types/SelectItemType
 import {LogicTypesEnum} from "../../../../../../../../../../Types/LogicTypesEnum";
 import {FilterActionEventTypesEnum} from "../../../../../../../../../../Types/FilterActionEventTypesEnum";
 import {AutoComplete} from "@consta/uikit/AutoCompleteCanary";
+import {Button} from "@consta/uikit/Button";
+import {FilterComplexItem} from "../FilterComplexItem";
+import {IconTrash} from "@consta/icons/IconTrash";
 
 
 export const FilterItem
@@ -77,6 +80,12 @@ export const FilterItem
                 size={'xs'}
                 view={'clear'}
                 className={filterItemStyle.filteConfiguratorControl}
+        />
+        <Button iconLeft={IconTrash}
+                onlyIcon
+                size={'xs'}
+                view={'ghost'}
+                onClick={() => setDeletedFilterId(id)}
         />
     </div>
 }

@@ -1,22 +1,24 @@
-import React from 'react';
-import './App.css';
+import React, {useState} from 'react';
+import addStyle from './App.module.css';
 import './variables.css'
-import {presetGpnDefault, Theme} from "@consta/uikit/Theme";
+import {Theme} from "@consta/uikit/Theme";
 import {Layout} from "@consta/uikit/Layout";
-import {Header} from './components/Header/Header'
-import {GridField} from "./components/Old/GridField/GridField";
+import {getTheme, Header, ThemeItem, themes} from './components/Header/Header'
 import {MainField} from "./components/MainField/MainField";
 
+
 export const App = () => {
+  const [theme, setTheme] = useState<ThemeItem>(themes[0]);
+
   return <>
-    <Theme preset={presetGpnDefault} className={'app'}>
-      <Layout direction={'column'}>
-        <Header />
-        <Layout className={'main'}>
-          <Layout flex={1} className={'block'}>
+    <Theme preset={getTheme(theme)} className={addStyle.app}>
+      <Layout direction={'column'} flex={1}>
+        <Header theme={theme} setTheme={setTheme}/>
+        <Layout className={addStyle.main}>
+          <Layout flex={1} className={addStyle.block}>
             menu
           </Layout>
-          <Layout flex={8} className={'block'}>
+          <Layout flex={8} className={addStyle.block}>
             <MainField />
           </Layout>
         </Layout>

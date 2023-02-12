@@ -1,12 +1,18 @@
 .app {
-  color: var(--color-typo-primary);
   background-color: var(--color-bg-system);
   transition: transform .2s ease-in-out;
+  height: 100vh;
+  flex-grow: 1;
+
+  color: var(--color-typo-primary);
 }
 
 .main {
-  gap: 10em;
+  gap: 4em;
   padding: 2vh 2vw;
-  height: 800px;
+
   color: var(--color-typo-primary);
+}
+
+.block {
 }
