@@ -1,4 +1,5 @@
-import fastapi as FastAPI
+import argparse
+import sys
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,9 +11,8 @@ from handlers.db_handler.postgres_handler import PostgresqlHandler
 from handlers.db_handler.clickhouse_handler import ClickhouseHandler
 
 
-origins = ["http://localhost:3000","http://localhost:3002"]
+origins = ["http://localhost:3000", "http://localhost:3002"]
 
-# app = Flask(__name__)
 app = FastAPI(
     title="RuleBUilder API",
     description="",
@@ -27,6 +27,10 @@ app.add_middleware(CORSMiddleware,
                    allow_credentials=True,
                    allow_methods=["*"],
                    allow_headers=["*"])
+
+settings = []
+system_connections = []
+system_cp = None
 
 
 # region sub function
@@ -71,59 +75,8 @@ def __import_file_2(moduleName):
 
     # Use mymodule
     mymodule.test_function()
-# endregion
 
 
-# region test endpoints
-@app.get("/")
-def hello():
-    return "Ok!"
-
-
-@app.get("/testJson")
-def testJson():
-    return {"text": 3}
-
-
-@app.get("/clickhouse")
-def clickhouse():
-    settings = loadSettings()
-    cp = ConnectionParam(connections=settings['connections'])
-
-    cp.getParam(connectionName='clickhouse_local')
-    ch = ClickhouseHandler(connectionParam=cp)
-
-    result = ch.getData('test_02', 'table_01')
-    return result
-
-
-@app.get("/postgresql")
-def postgresql():
-    settings = loadSettings()
-    cp = ConnectionParam(connections=settings['connections'])
-
-    cp.getParam(connectionName='postgresql_local')
-    ph = PostgresqlHandler(connectionParam=cp)
-
-    result = ph.getData('schema_01', 'table_01')
-    return result
-
-
-@app.get("/create_file")
-def create_file():
-    fileName = f'test_{datetime.now().strftime("%Y%m%d%H%M%S")}.py'
-    with open(f'./rules/{fileName}', "w") as file:
-        file.write('''
-def test_function():
-    print('hi, this test_function')        
-        ''')
-
-    return f'create file: {fileName}'
-
-
-@app.get("/open_created_file/<fileName>")
-def open_created_file(fileName):
-    __import_file_2(f'rules.{fileName}')
 # endregion
 
 
@@ -133,16 +86,18 @@ async def getAllSource():
     '''
     Получение всех источников
     '''
-    settings = loadSettings()
+    system_cp.getParam(connectionName=argv[0])
+    ph = PostgresqlHandler(connectionParam=system_cp)
+    schemasBySource = ph.getAllSchema()
+
     return settings['connections']
 
 
 @app.get('/getAllSchemaBySource')
-async def getAllSchemaBySource(source:str):
+async def getAllSchemaBySource(source: str):
     '''
     Получение схем источника
     '''
-    settings = loadSettings()
     cp = ConnectionParam(connections=settings['connections'])
 
     cp.getParam(connectionName=source)
@@ -159,11 +114,10 @@ async def getAllSchemaBySource(source:str):
 
 
 @app.get('/getAllTableBySchemaAndSource')
-async def getAllTableBySchemaAndSource(source:str, schema:str):
+async def getAllTableBySchemaAndSource(source: str, schema: str):
     '''
     Получение таблиц схемы источника
     '''
-    settings = loadSettings()
     cp = ConnectionParam(connections=settings['connections'])
 
     cp.getParam(connectionName=source)
@@ -180,11 +134,10 @@ async def getAllTableBySchemaAndSource(source:str, schema:str):
 
 
 @app.get('/getPreviewDataForTable')
-async def getPreviewDataForTable(source:str, schema:str, table:str):
+async def getPreviewDataForTable(source: str, schema: str, table: str):
     '''
     Получение примера данных с источника
     '''
-    settings = loadSettings()
     cp = ConnectionParam(connections=settings['connections'])
 
     cp.getParam(connectionName=source)
@@ -199,12 +152,12 @@ async def getPreviewDataForTable(source:str, schema:str, table:str):
 
     return previewData
 
+
 @app.get('/getColumnsForTable')
-async def getColumnsForTable(source:str, schema:str, table:str):
+async def getColumnsForTable(source: str, schema: str, table: str):
     '''
     Получение информации о полях таблицы
     '''
-    settings = loadSettings()
     cp = ConnectionParam(connections=settings['connections'])
 
     cp.getParam(connectionName=source)
@@ -222,6 +175,10 @@ async def getColumnsForTable(source:str, schema:str, table:str):
 
 
 if __name__ == "__main__":
+
+    argv = sys.argv
+    settings = loadSettings()
+
     logging.basicConfig(filename=f'./logs/{datetime.now().strftime("%Y%m%d%H%M%S")}.log',
                         filemode='w',
                         format='%(asctime)s [%(levelname)s]: %(message)s',
@@ -230,6 +187,10 @@ if __name__ == "__main__":
 
     while True:
         try:
+            settings = loadSettings()
+            system_connections = settings['connections']
+            system_cp = ConnectionParam(connections=system_connections)
+
             uvicorn.run(app, port=5000)
 
         except Exception as e:
@@ -238,4 +199,3 @@ if __name__ == "__main__":
         logging.info('Restart')
 
     logging.info('Stop')
-

@@ -16,7 +16,7 @@ export const MainField = () => {
         }
     }, [deletedStepId])
 
-    const addStep = (item:JSX.Element, type:StepType) => {
+    const addStep = (item:JSX.Element, step:StepType) => {
         setStepsElements([...stepsElements, item])
         // setSteps([...steps, type])
     }

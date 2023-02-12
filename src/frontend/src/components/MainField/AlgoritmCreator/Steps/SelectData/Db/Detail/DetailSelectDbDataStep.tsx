@@ -151,9 +151,7 @@ export const DetailSelectDbDataStep
             <Text size={'s'} as={'b'}>Параметры фильтрации</Text>
         </div>
         <div className={detailSelectDbDataStepStyle.selectorSettingGroupContent}>
-            <div className={detailSelectDbDataStepStyle.filterBlock}>
-                <FilterConfigurator />
-            </div>
+            <FilterConfigurator />
         </div>
         {/*<div className={detailSelectDbDataStepStyle.selectorSettingGroupHeader}>
             <IconEye size={'s'}/>

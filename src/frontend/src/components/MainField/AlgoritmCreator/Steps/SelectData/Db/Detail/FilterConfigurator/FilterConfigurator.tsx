@@ -1,34 +1,34 @@
-import './FilterConfigurator.css'
+import filterConfiguratorStyle from './FilterConfigurator.module.css'
 import {useEffect, useState} from "react";
+import {FilterComplexItem} from "./FilterComplexItem/FilterComplexItem";
 import {Button} from "@consta/uikit/Button";
-import {FilterItem} from "./FilterItem/FilterItem";
 
 
 
 export const FilterConfigurator = () => {
     const [complexFilterItems, setComplexFilterItems] = useState<JSX.Element[]>([])
-    const [deletedFilterId, setDeletedFilterId] = useState<number | null>()
+    const [deletedComplexFilterId, setDeletedComplexFilterId] = useState<number | null>()
 
     useEffect(() => {
-        setComplexFilterItems([...(complexFilterItems.filter(x => x.props.id !== deletedFilterId))])
-        setDeletedFilterId(null)
-    }, [deletedFilterId])
+        setComplexFilterItems([...(complexFilterItems.filter(x => x.props.id !== deletedComplexFilterId))])
+        setDeletedComplexFilterId(null)
+    }, [deletedComplexFilterId])
 
-    const addFilterItem = (item:JSX.Element) => setComplexFilterItems([item, ...complexFilterItems])
-    const getNextFilterItemId = ():number => Math.max(0, ...complexFilterItems.map(x => x.props.id)) + 1
+    const addComplexFilterItem = (item:JSX.Element) => setComplexFilterItems([item, ...complexFilterItems])
+    const getNextComplexFilterItemId = ():number => Math.max(0, ...complexFilterItems.map(x => x.props.id)) + 1
 
-    return <div className={'filter-filed'}>
+    return <div className={filterConfiguratorStyle.filterComplexFiled}>
         <b>(</b>
         <Button
             label={'+'}
             size={'xs'}
             onClick={() => {
-                const componentId = getNextFilterItemId()
-                addFilterItem(
-                    <FilterItem
+                const componentId = getNextComplexFilterItemId()
+                addComplexFilterItem(
+                    <FilterComplexItem
                         key={componentId}
-                        id={componentId}
-                        setDeletedFilterId={setDeletedFilterId}
+                        complexFilterId={componentId}
+                        setDeletedComplexFilterId={setDeletedComplexFilterId}
                     />
                 )
             }}

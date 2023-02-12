@@ -1,0 +1,22 @@
+.filteConfigurator {
+  display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-grow: 1;
+    column-gap: 1vw;
+}
+
+.filteConfiguratorField {
+    all: unset;
+    min-width: 6em;
+
+    background-color: var(--color-bg-ghost);
+    border-bottom: var(--control-border-width) solid var(--color-control-bg-border-default);
+}
+
+.filteConfiguratorControl {
+    all: unset;
+    min-width: 4em;
+
+    border-bottom: var(--control-border-width) solid var(--color-control-bg-border-default);
+}

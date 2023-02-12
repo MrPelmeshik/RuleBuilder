@@ -2,7 +2,6 @@
   color: var(--color-typo-primary);
   background-color: var(--color-bg-system);
   transition: transform .2s ease-in-out;
-  overflow: hidden;
 }
 
 .main {

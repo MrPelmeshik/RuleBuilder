@@ -36,10 +36,3 @@
 .inputFilterParameter:focus {
     border: var(--control-border-width) solid var(--color-control-bg-border-default);
 }
-
-.filterBlock {
-    display: flex;
-    flex-direction: column;
-    row-gap: 1vh;
-    align-items: flex-start;
-}
