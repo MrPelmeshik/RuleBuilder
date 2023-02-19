@@ -1,5 +1,3 @@
-create schema meta;
-
 create table meta."connection" (
 	id serial4 NOT NULL,
 	environment text NULL,

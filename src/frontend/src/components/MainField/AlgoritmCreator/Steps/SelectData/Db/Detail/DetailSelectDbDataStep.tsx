@@ -4,9 +4,9 @@ import {Select} from "@consta/uikit/Select";
 import React, {useEffect, useState} from "react";
 import {IconClose} from "@consta/icons/IconClose";
 import {
-    getAllSchemaBySource,
-    getAllSource,
-    getAllTableBySchemaAndSource, getColumnsForTable,
+    getSchemasBySource,
+    getSources,
+    getTablesBySchema, getColumnsByTable,
     getPreviewDataForTable
 } from "../../../../../../../services/SourceService";
 import {Table} from "./Table/Table";
@@ -43,7 +43,7 @@ export const DetailSelectDbDataStep
     const [columns, setColumns] = useState<any[] | null>([])
 
     useEffect(() => {
-        getAllSource()
+        getSources()
             .then(response => setSources(response.slice()))
     }, [])
 
@@ -51,13 +51,13 @@ export const DetailSelectDbDataStep
 
     useEffect(() => {
         if (sourceItem) {
-            getAllSchemaBySource(sourceItem.label).then(response => setSchemasItems(() => {
+            getSchemasBySource(sourceItem.id).then(response => setSchemasItems(() => {
                 const schemaList: SelectItemType[] = []
                 for (let i = 0; i < response.length; i++) {
-                    /*schemaList.push({
-                        label: response[i].schemaName,
-                        id: i
-                    })*/
+                    schemaList.push({
+                        label: response[i]['name'],
+                        id: response[i]['id']
+                    })
                 }
                 return schemaList
             }))
@@ -67,12 +67,12 @@ export const DetailSelectDbDataStep
 
     useEffect(() => {
         if (sourceItem && schemaItem)
-            getAllTableBySchemaAndSource(sourceItem.label, schemaItem.label).then(response => setTablesItems(() => {
+            getTablesBySchema(sourceItem.label, schemaItem.id).then(response => setTablesItems(() => {
                 const tableList: SelectItemType[] = []
                 for (let i = 0; i < response.length; i++) {
                     tableList.push({
-                        label: response[i].tableName,
-                        id: i
+                        label: response[i]['name'],
+                        id: response[i]['id']
                     })
                 }
                 return tableList
@@ -86,7 +86,7 @@ export const DetailSelectDbDataStep
             getPreviewDataForTable(sourceItem.label, schemaItem.label, tableItem.label)
                 .then(response => setDataPreview(() => response))
 
-            getColumnsForTable(sourceItem.label, schemaItem.label, tableItem.label)
+            getColumnsByTable(sourceItem.label, schemaItem.label, tableItem.id)
                 .then(response => setColumns(() =>
                     response.map(r => ({
                         'columnName': r.columnName,

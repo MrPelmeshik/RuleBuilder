@@ -11,7 +11,6 @@ export const FilterConfigurator = () => {
     const [deletedComplexFilterId, setDeletedComplexFilterId] = useState<number | null>()
 
     useEffect(() => {
-        console.log('deletedComplexFilterId', deletedComplexFilterId)
         setComplexFilterItems([...(complexFilterItems.filter(x => x.props.complexFilterId !== deletedComplexFilterId))])
         setDeletedComplexFilterId(null)
     }, [deletedComplexFilterId])

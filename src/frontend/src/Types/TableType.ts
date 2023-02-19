@@ -1,3 +1,4 @@
 export type TableType = {
-    "tableName": string
+    id: number
+    name: string
 }

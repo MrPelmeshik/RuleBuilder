@@ -39,7 +39,7 @@ export const Header
     return <div className={headerStyle.header}>
         <div className={headerStyle.headerLeftSide}>
             <Text as="span" size="l" weight="bold" view={'primary'}>
-                Конструктор парвил
+                Конструктор правил проверки данных
             </Text>
             <Tag icon={IconTest} size={'xs'} label={'alpha'} mode={'info'} className={headerStyle.headerTag}/>
         </div>

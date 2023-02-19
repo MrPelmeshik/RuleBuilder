@@ -1,4 +1,3 @@
-import argparse
 import sys
 import uvicorn
 from fastapi import FastAPI
@@ -6,10 +5,25 @@ from fastapi.middleware.cors import CORSMiddleware
 import logging
 import json
 from datetime import datetime
-from handlers.connection_param import ConnectionParam
-from handlers.db_handler.postgres_handler import PostgresqlHandler
-from handlers.db_handler.clickhouse_handler import ClickhouseHandler
+from src.backend.types.connection_param import convertDictToConnectionParamList, getParam
+from src.backend.handlers.db_handler.db_handler import DbHandler
 
+
+def loadSettings():
+    logging.info('Importing settings')
+    with open('./settings.json') as json_data:
+        settings = json.load(json_data)
+    return settings
+
+
+# region service settings
+
+logging.basicConfig(filename=f'./logs/{datetime.now().strftime("%Y%m%d%H%M%S")}.log',
+                    filemode='w',
+                    format='%(asctime)s [%(levelname)s]: %(message)s',
+                    level=logging.NOTSET)
+
+logger = logging.getLogger(__name__)
 
 origins = ["http://localhost:3000", "http://localhost:3002"]
 
@@ -28,19 +42,15 @@ app.add_middleware(CORSMiddleware,
                    allow_methods=["*"],
                    allow_headers=["*"])
 
-settings = []
-system_connections = []
-system_cp = None
+# endregion
+
+argv = sys.argv
+settings = loadSettings()
+system_connections = convertDictToConnectionParamList(settings['connections'])
+system_connection = getParam(system_connections, 'postgresql_' + argv[1])
 
 
 # region sub function
-def loadSettings():
-    with open('./settings.json') as json_data:
-        settings = json.load(json_data)
-
-    logging.info('Settings imported')
-    return settings
-
 
 def __import_file(full_path_to_module):
     try:
@@ -79,123 +89,52 @@ def __import_file_2(moduleName):
 
 # endregion
 
+# region API sources
 
-# region source endpoint
-@app.get("/getAllSource")
-async def getAllSource():
-    '''
-    Получение всех источников
-    '''
-    system_cp.getParam(connectionName=argv[0])
-    ph = PostgresqlHandler(connectionParam=system_cp)
-    schemasBySource = ph.getAllSchema()
-
-    return settings['connections']
+@app.get("/getSources")
+async def getSources():
+    """ Получение всех источников """
+    dbh = DbHandler(system_connection)
+    return dbh.getSorces()
 
 
-@app.get('/getAllSchemaBySource')
-async def getAllSchemaBySource(source: str):
-    '''
-    Получение схем источника
-    '''
-    cp = ConnectionParam(connections=settings['connections'])
-
-    cp.getParam(connectionName=source)
-
-    schemasBySource = []
-    if cp.type == "postgresql":
-        ph = PostgresqlHandler(connectionParam=cp)
-        schemasBySource = ph.getAllSchema()
-    elif cp.type == "clickhouse":
-        ch = ClickhouseHandler(connectionParam=cp)
-        schemasBySource = ch.getAllSchema()
-
-    return schemasBySource
+@app.get("/getSorcesByEnvironmentName")
+async def getSorcesByEnvironmentName(environment: str):
+    """ Получение всех доступных источников """
+    dbh = DbHandler(system_connection)
+    return dbh.getSorces(environment)
 
 
-@app.get('/getAllTableBySchemaAndSource')
-async def getAllTableBySchemaAndSource(source: str, schema: str):
-    '''
-    Получение таблиц схемы источника
-    '''
-    cp = ConnectionParam(connections=settings['connections'])
-
-    cp.getParam(connectionName=source)
-
-    tablesBySource = []
-    if cp.type == "postgresql":
-        ph = PostgresqlHandler(connectionParam=cp)
-        tablesBySource = ph.getAllTablesBySchema(schema)
-    elif cp.type == "clickhouse":
-        ch = ClickhouseHandler(connectionParam=cp)
-        tablesBySource = ch.getAllTablesBySchema(schema)
-
-    return tablesBySource
+@app.get("/getSchemasBySource")
+async def getSchemasBySource(sourceId: int):
+    """ Получение всех источников """
+    dbh = DbHandler(system_connection)
+    return dbh.getSchemasBySource(sourceId)
 
 
-@app.get('/getPreviewDataForTable')
-async def getPreviewDataForTable(source: str, schema: str, table: str):
-    '''
-    Получение примера данных с источника
-    '''
-    cp = ConnectionParam(connections=settings['connections'])
-
-    cp.getParam(connectionName=source)
-
-    previewData = []
-    if cp.type == "postgresql":
-        ph = PostgresqlHandler(connectionParam=cp)
-        previewData = ph.getPreviewDataForTable(schema, table)
-    elif cp.type == "clickhouse":
-        ch = ClickhouseHandler(connectionParam=cp)
-        previewData = ch.getPreviewDataForTable(schema, table)
-
-    return previewData
+@app.get("/getTablesBySchema")
+async def getTablesBySchema(schemaId: int):
+    """ Получение таблиц схемы """
+    dbh = DbHandler(system_connection)
+    return dbh.getTablesBySchema(schemaId)
 
 
-@app.get('/getColumnsForTable')
-async def getColumnsForTable(source: str, schema: str, table: str):
-    '''
-    Получение информации о полях таблицы
-    '''
-    cp = ConnectionParam(connections=settings['connections'])
+@app.get("/getColumnsByTable")
+async def getColumnsByTable(tableId: int):
+    """ Получение колонок таблицы """
+    dbh = DbHandler(system_connection)
+    return dbh.getColumnsByTable(tableId)
 
-    cp.getParam(connectionName=source)
-
-    columns = []
-    if cp.type == "postgresql":
-        ph = PostgresqlHandler(connectionParam=cp)
-        columns = ph.getColumnsByTable(schema, table)
-    elif cp.type == "clickhouse":
-        ch = ClickhouseHandler(connectionParam=cp)
-        columns = ch.getColumnsByTable(schema, table)
-
-    return columns
 # endregion
-
 
 if __name__ == "__main__":
 
-    argv = sys.argv
-    settings = loadSettings()
-
-    logging.basicConfig(filename=f'./logs/{datetime.now().strftime("%Y%m%d%H%M%S")}.log',
-                        filemode='w',
-                        format='%(asctime)s [%(levelname)s]: %(message)s',
-                        level=logging.NOTSET)
     logging.info('Start')
 
-    while True:
-        try:
-            settings = loadSettings()
-            system_connections = settings['connections']
-            system_cp = ConnectionParam(connections=system_connections)
+    try:
+        uvicorn.run(app, port=5000)
 
-            uvicorn.run(app, port=5000)
-
-        except Exception as e:
-            logging.exception(e)
-
-        logging.info('Restart')
+    except Exception as e:
+        logging.exception(e)
 
     logging.info('Stop')
