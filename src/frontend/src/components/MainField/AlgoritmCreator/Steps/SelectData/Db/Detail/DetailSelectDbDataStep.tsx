@@ -78,7 +78,7 @@ export const DetailSelectDbDataStep
             //     .then(response => setDataPreview(() => response))
 
             getColumnsByTable(sourceItem.label, schemaItem.label, tableItem.id)
-                .then(response => setColumns(response.map(r => ({
+                .then(response => setColumns(response.map((r, i) => ({
                         'columnName': r.columnName,
                         'columnType': r.columnType,
                         'isActive': <Switch size={'s'} checked={true}/>

@@ -15,7 +15,6 @@ import {CheckStepSettingsType} from "../Check/Types/CheckStepSettingsType";
 
 
 const getComponentDetail = (stepSettings:IStepSettings) => {
-    console.log(stepSettings)
   if (stepSettings instanceof SelectDbDataStepSettingsType) {
     return <DetailSelectDbDataStep stepSettings={stepSettings}/>;
   }

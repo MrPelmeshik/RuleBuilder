@@ -1,3 +1,4 @@
 export interface IStepSettings {
-    // copy(curStepSettings: IStepSettings): IStepSettings;
+    copyFrom(this: IStepSettings, curStepSettings: IStepSettings): void;
+    getDeepCopy(this: IStepSettings): IStepSettings;
 }

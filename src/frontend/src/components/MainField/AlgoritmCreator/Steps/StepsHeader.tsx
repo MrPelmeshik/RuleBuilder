@@ -2,7 +2,7 @@ import mainFiledStyle from "../../MainField.module.css";
 import {Button} from "@consta/uikit/Button";
 import {IconSettings} from "@consta/icons/IconSettings";
 import {IconClose} from "@consta/icons/IconClose";
-import React, {Dispatch, useEffect, useState} from "react";
+import React, {Dispatch, useState} from "react";
 import {StepSettingModal} from "./StepSettingModal/StepSettingModal";
 import {IStepSettings} from "./IStepSettings";
 import cloneDeep from 'lodash.clonedeep';
@@ -13,15 +13,8 @@ export const StepsHeader
 {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
-    const saveNewSetting = (newStepSettings: IStepSettings) => {
-        console.log('saveNewSetting', newStepSettings)
-        stepSettings = cloneDeep(newStepSettings)
-    }
-
-    const getCopyStepSettings = (curStepSettings: IStepSettings): IStepSettings => {
-        console.log('getCopyStepSettings', curStepSettings)
-        return cloneDeep(curStepSettings)
-    }
+    const saveNewSetting = (newStepSettings: IStepSettings) => stepSettings.copyFrom(newStepSettings)
+    const getCopyStepSettings = (curStepSettings: IStepSettings): IStepSettings => curStepSettings.getDeepCopy()
 
     return <div className={mainFiledStyle.stepPreviewHeader}>
         <StepSettingModal title={title} stepSettings={getCopyStepSettings(stepSettings)} saveNewSetting={saveNewSetting} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />

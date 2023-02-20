@@ -27,7 +27,7 @@ export const AlgorithmCreatorMenu
                 nextStep = new StepType(nextStepId, nextStepId, StepsEnum.checkStep, new SelectDbDataStepSettingsType())
                 addStep(<PreviewCheckStep key={nextStepId}
                                           id={nextStepId}
-                                          stepType={nextStep}
+                                          stepType={nextStep.settings}
                                           setDeletedStepId={setDeletedStepId}
                 />, nextStep)
                 break;

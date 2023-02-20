@@ -27,7 +27,7 @@ export const PreviewSelectDbDataStep
     useEffect(() => {
         console.log('change stepSettings', stepSettings)
         updateMetaDataPreview()
-    }, [stepSettings])
+    }, [stepSettings.source, stepSettings.schema, stepSettings.table])
     const getTitle = ():string => 'Чтение данных из БД'
 
 

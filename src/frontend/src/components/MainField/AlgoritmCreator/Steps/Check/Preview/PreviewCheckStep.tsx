@@ -2,11 +2,11 @@ import previewCheckStepStyle from './PreviewCheckStep.module.css'
 import mainFiledStyle from "../../../../MainField.module.css";
 import React, {Dispatch} from "react";
 import {StepsHeader} from "../../StepsHeader";
-import {StepType} from "../../StepType";
+import {IStepSettings} from "../../IStepSettings";
 
 
 export const PreviewCheckStep
-    :React.FC<{id:number, stepType:StepType, setDeletedStepId:Dispatch<number|null>}>
+    :React.FC<{id:number, stepType:IStepSettings, setDeletedStepId:Dispatch<number|null>}>
     = ({id, stepType, setDeletedStepId}) =>
 {
     return <div className={mainFiledStyle.stepPreview}>

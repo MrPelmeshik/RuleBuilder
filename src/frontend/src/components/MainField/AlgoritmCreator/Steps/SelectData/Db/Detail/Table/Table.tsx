@@ -22,8 +22,8 @@ export const Table:React.FC<{dataPreview:any[] | null}> = ({dataPreview}) => {
 
     useEffect(() => {
         setHeader(() => tableHeaders?.map(hdr => <th key={hdr}>{hdr}</th>))
-        setData(() => tableData?.map(row => <tr>{tableHeaders?.map(hdr =>
-            <td>{row[hdr]}</td>)}</tr>))
+        setData(() => tableData?.map((row, i) => <tr key={i}>{tableHeaders?.map((hdr, j) =>
+            <td key={j}>{row[hdr]}</td>)}</tr>))
     }, [tableHeaders, tableData])
 
     return <div className={tableStyle.tableBlock}>
