@@ -5,20 +5,20 @@ import {StepType} from "./AlgoritmCreator/Steps/StepType";
 
 export const MainField = () => {
     const [stepsElements, setStepsElements] = useState<JSX.Element[]>([])
-    // const [steps, setSteps] = useState<StepType[]>([])
+    const [steps, setSteps] = useState<StepType[]>([])
     const [deletedStepId, setDeletedStepId] = useState<number | null>()
 
     useEffect(() => {
         if(deletedStepId) {
-            setStepsElements([...(stepsElements.filter(x => x.props.stepType.id !== deletedStepId))])
-            // setSteps([...(steps.filter(x => x.props.stepType.id !== deletedStepId))])
+            setStepsElements([...(stepsElements.filter(x => x.props.id !== deletedStepId))])
+            setSteps([...(steps.filter(x => x.id !== deletedStepId))])
             setDeletedStepId(null)
         }
     }, [deletedStepId])
 
     const addStep = (item:JSX.Element, step:StepType) => {
         setStepsElements([...stepsElements, item])
-        // setSteps([...steps, type])
+        setSteps([...steps, step])
     }
     const getNextStepId = ():number => Math.max(0, ...stepsElements.map(x => Number(x.key))) + 1
 

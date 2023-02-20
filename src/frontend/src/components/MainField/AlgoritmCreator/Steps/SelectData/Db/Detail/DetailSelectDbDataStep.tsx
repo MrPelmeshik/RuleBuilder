@@ -2,7 +2,6 @@ import '../../../../../../Old/Items/Item.css'
 import detailSelectDbDataStepStyle from './DetailSelectDbDataStep.module.css'
 import {Select} from "@consta/uikit/Select";
 import React, {useEffect, useState} from "react";
-import {IconClose} from "@consta/icons/IconClose";
 import {
     getSchemasBySource,
     getSources,
@@ -10,22 +9,21 @@ import {
     getPreviewDataForTable
 } from "../../../../../../../services/SourceService";
 import {Table} from "./Table/Table";
-import {CollapseGroup} from "@consta/uikit/CollapseGroup";
 import {IconFilter} from "@consta/icons/IconFilter";
 import {Text} from "@consta/uikit/Text";
-import {IconEye} from "@consta/icons/IconEye";
 import {IconSettings} from "@consta/icons/IconSettings";
 import {Switch} from "@consta/uikit/Switch";
 import {FilterConfigurator} from "./FilterConfigurator/FilterConfigurator";
-import {StepType} from "../../../StepType";
-import {MetaType} from "../Types/MetaType";
 import {SourceMetaType} from "../Types/SourceMetaType";
 import {SelectItemType} from "../../../../../../../Types/SelectItemType";
+import {SelectDbDataStepSettingsType} from "../Types/SelectDbDataStepSettingsType";
+import {SchemaMetaType} from "../Types/SchemaMetaType";
+import {TableMetaType} from "../Types/TableMetaType";
 
 
 export const DetailSelectDbDataStep
-    :React.FC<{stepType: StepType}>
-    = ({stepType}) =>
+    :React.FC<{stepSettings: SelectDbDataStepSettingsType}>
+    = ({stepSettings}) =>
 {
     const [sourceItem, setSourceItem] = useState<SelectItemType | null>()
     const [schemaItem, setSchemaItem] = useState<SelectItemType | null>()
@@ -36,67 +34,94 @@ export const DetailSelectDbDataStep
     const [tablesItems, setTablesItems] = useState<SelectItemType[]>([])
 
     const [sources, setSources] = useState<SourceMetaType[]>([])
-    // const [schemas, setSchemas] = useState<any[]>([])
-    // const [tables, setTables] = useState<any[]>([])
+    const [schemas, setSchemas] = useState<SchemaMetaType[]>([])
+    const [tables, setTables] = useState<TableMetaType[]>([])
 
     const [dataPreview, setDataPreview] = useState<any[] | null>([])
     const [columns, setColumns] = useState<any[] | null>([])
 
-    useEffect(() => {
-        getSources()
-            .then(response => setSources(response.slice()))
-    }, [])
+    // region get data from API
 
-    useEffect(() => setSourcesItems(sources.map(src => ({label: src.name, id: src.id}))), [sources])
+    useEffect(() => {
+        getSources().then(response => setSources(response))
+    }, [])
 
     useEffect(() => {
         if (sourceItem) {
-            getSchemasBySource(sourceItem.id).then(response => setSchemasItems(() => {
-                const schemaList: SelectItemType[] = []
-                for (let i = 0; i < response.length; i++) {
-                    schemaList.push({
-                        label: response[i]['name'],
-                        id: response[i]['id']
-                    })
-                }
-                return schemaList
-            }))
+            getSchemasBySource(sourceItem.id).then(response => setSchemas(response))
+
+            stepSettings.source = {
+                id: sourceItem.id,
+                name: sourceItem.label,
+                type: "table"
+            }
         }
         setSchemaItem(null)
     }, [sourceItem, sourcesItems])
 
     useEffect(() => {
-        if (sourceItem && schemaItem)
-            getTablesBySchema(sourceItem.label, schemaItem.id).then(response => setTablesItems(() => {
-                const tableList: SelectItemType[] = []
-                for (let i = 0; i < response.length; i++) {
-                    tableList.push({
-                        label: response[i]['name'],
-                        id: response[i]['id']
-                    })
-                }
-                return tableList
-            }))
+        if (sourceItem && schemaItem) {
+            getTablesBySchema(sourceItem.label, schemaItem.id).then(response => setTables(response))
+
+            stepSettings.schema = {
+                id: schemaItem.id,
+                name: schemaItem.label
+            }
+        }
         setTableItem(null)
     }, [schemaItem, schemasItems])
 
     useEffect(() => {
         if (sourceItem && schemaItem && tableItem) {
 
-            getPreviewDataForTable(sourceItem.label, schemaItem.label, tableItem.label)
-                .then(response => setDataPreview(() => response))
+            // getPreviewDataForTable(sourceItem.label, schemaItem.label, tableItem.label)
+            //     .then(response => setDataPreview(() => response))
 
             getColumnsByTable(sourceItem.label, schemaItem.label, tableItem.id)
-                .then(response => setColumns(() =>
-                    response.map(r => ({
+                .then(response => setColumns(response.map(r => ({
                         'columnName': r.columnName,
                         'columnType': r.columnType,
                         'isActive': <Switch size={'s'} checked={true}/>
                     }))))
+
+            stepSettings.table = {
+                id: tableItem.id,
+                name: tableItem.label
+            }
         }
-        setDataPreview(null)
+        // setDataPreview(null)
         setColumns(null)
     }, [tableItem, tablesItems])
+
+    // endregion
+
+    // region set itmes
+
+    useEffect(() => {
+        setSourcesItems(sources.map(src => ({label: src.name, id: src.id})))
+
+        if (stepSettings.source && sources.find(source => source.id === stepSettings.source?.id)) {
+            setSourceItem({id: stepSettings.source?.id, label: stepSettings.source?.name})
+        }
+    }, [sources])
+
+    useEffect(() => {
+            setSchemasItems(schemas.map(schema => ({label: schema.name, id: schema.id})))
+
+        if (stepSettings.schema && schemas.find(schema => schema.id === stepSettings.schema?.id)) {
+            setSchemaItem({id: stepSettings.schema?.id, label: stepSettings.schema?.name})
+        }
+    }, [schemas])
+
+    useEffect(() => {
+            setTablesItems(tables.map(table => ({label: table.name, id: table.id})))
+
+        if (stepSettings.table && tables.find(table => table.id === stepSettings.table?.id)) {
+            setTableItem({id: stepSettings.table?.id, label: stepSettings.table?.name})
+        }
+    }, [tables])
+
+    // endregion
 
     return <div className={detailSelectDbDataStepStyle.modalField}>
         <div className={detailSelectDbDataStepStyle.selectorSettingGroupHeader}>

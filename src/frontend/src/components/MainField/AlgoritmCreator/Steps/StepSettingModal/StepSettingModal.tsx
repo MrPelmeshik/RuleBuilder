@@ -9,20 +9,24 @@ import {IconSave} from "@consta/icons/IconSave";
 import {DetailSelectDbDataStep} from "../SelectData/Db/Detail/DetailSelectDbDataStep";
 import {StepType} from "../StepType";
 import {StepsEnum} from "../StepsEnum";
+import {IStepSettings} from "../IStepSettings";
+import {SelectDbDataStepSettingsType} from "../SelectData/Db/Types/SelectDbDataStepSettingsType";
+import {CheckStepSettingsType} from "../Check/Types/CheckStepSettingsType";
 
 
-const getComponentDetail = (stepType:StepType) => {
-  if (stepType.type === StepsEnum.selectDbDataStep) {
-    return <DetailSelectDbDataStep stepType={stepType}/>;
+const getComponentDetail = (stepSettings:IStepSettings) => {
+    console.log(stepSettings)
+  if (stepSettings instanceof SelectDbDataStepSettingsType) {
+    return <DetailSelectDbDataStep stepSettings={stepSettings}/>;
   }
-  if (stepType.type === StepsEnum.checkStep) {
+  if (stepSettings instanceof CheckStepSettingsType) {
     return <>Модальное окно для шага проверки</>;
   }
 };
 
 export const StepSettingModal
-    :React.FC<{title:string, stepType:StepType, isModalOpen:boolean, setIsModalOpen:Dispatch<boolean>}>
-    = ({title, stepType, isModalOpen, setIsModalOpen}) =>
+    :React.FC<{title:string, stepSettings:IStepSettings, saveNewSetting: Function, isModalOpen:boolean, setIsModalOpen:Dispatch<boolean>}>
+    = ({title, stepSettings, saveNewSetting, isModalOpen, setIsModalOpen}) =>
 {
     return <Modal
         isOpen={isModalOpen}
@@ -36,7 +40,7 @@ export const StepSettingModal
             <div className={mainFiledStyle.stepPreviewHeaderRightSide}>
                 <Button iconRight={IconSave}
                         onlyIcon
-                        onClick={() => setIsModalOpen(false)}
+                        onClick={() => saveNewSetting(stepSettings)}
                         size={'s'}
                         view={'ghost'}
                 />
@@ -49,7 +53,7 @@ export const StepSettingModal
             </div>
         </div>
         <div className={stepSettingModalStyle.stepSettingModalDetail}>
-            {getComponentDetail(stepType)}
+            {getComponentDetail(stepSettings)}
         </div>
     </Modal>
 }

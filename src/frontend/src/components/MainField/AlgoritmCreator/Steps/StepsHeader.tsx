@@ -2,18 +2,29 @@ import mainFiledStyle from "../../MainField.module.css";
 import {Button} from "@consta/uikit/Button";
 import {IconSettings} from "@consta/icons/IconSettings";
 import {IconClose} from "@consta/icons/IconClose";
-import React, {Dispatch, useState} from "react";
+import React, {Dispatch, useEffect, useState} from "react";
 import {StepSettingModal} from "./StepSettingModal/StepSettingModal";
-import {StepType} from "./StepType";
+import {IStepSettings} from "./IStepSettings";
+import cloneDeep from 'lodash.clonedeep';
 
 export const StepsHeader
-    :React.FC<{title:string, subTitle:string, stepType:StepType, setDeletedStepId:Dispatch<number|null>}>
-    = ({title, subTitle, stepType, setDeletedStepId}) =>
+    :React.FC<{id:number, title:string, subTitle:string, stepSettings:IStepSettings, setDeletedStepId:Dispatch<number|null>}>
+    = ({id, title, subTitle, stepSettings, setDeletedStepId}) =>
 {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
+    const saveNewSetting = (newStepSettings: IStepSettings) => {
+        console.log('saveNewSetting', newStepSettings)
+        stepSettings = cloneDeep(newStepSettings)
+    }
+
+    const getCopyStepSettings = (curStepSettings: IStepSettings): IStepSettings => {
+        console.log('getCopyStepSettings', curStepSettings)
+        return cloneDeep(curStepSettings)
+    }
+
     return <div className={mainFiledStyle.stepPreviewHeader}>
-        <StepSettingModal title={title} stepType={stepType} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        <StepSettingModal title={title} stepSettings={getCopyStepSettings(stepSettings)} saveNewSetting={saveNewSetting} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         <div className={mainFiledStyle.stepPreviewHeaderLeftSide}>
             {title}
             <div className={mainFiledStyle.stepPreviewHeaderDetail}>{subTitle}</div>
@@ -27,7 +38,7 @@ export const StepsHeader
             />
             <Button iconRight={IconClose}
                     onlyIcon
-                    onClick={() => setDeletedStepId(stepType.id)}
+                    onClick={() => setDeletedStepId(id)}
                     size={'xs'}
                     view={'ghost'}
             />

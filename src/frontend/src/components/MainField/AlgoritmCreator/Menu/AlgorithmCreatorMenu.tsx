@@ -6,25 +6,27 @@ import {IconAdd} from "@consta/icons/IconAdd";
 import {Dispatch} from "react";
 import {StepsEnum} from "../Steps/StepsEnum";
 import {StepType} from "../Steps/StepType";
-import {SelectDbDataStepType} from "../Steps/SelectData/Db/Types/SelectDbDataStepType";
+import {SelectDbDataStepSettingsType} from "../Steps/SelectData/Db/Types/SelectDbDataStepSettingsType";
 
 
 export const AlgorithmCreatorMenu
     :React.FC<{addStep:Function, nextStepId:number, setDeletedStepId:Dispatch<number|null>}>
     = ({addStep, nextStepId, setDeletedStepId}) => {
     const addNextStep = (type: StepsEnum) => {
-        let nextStep:StepType | null = null
+        let nextStep: StepType | null = null
         switch (type) {
             case StepsEnum.selectDbDataStep:
-                nextStep = new SelectDbDataStepType(nextStepId, -1)
+                nextStep = new StepType(nextStepId, nextStepId, StepsEnum.selectDbDataStep, new SelectDbDataStepSettingsType())
                 addStep(<PreviewSelectDbDataStep key={nextStepId}
-                                                 stepType={nextStep}
+                                                 id={nextStepId}
+                                                 stepSettings={nextStep.settings}
                                                  setDeletedStepId={setDeletedStepId}
                 />, nextStep)
                 break;
             case StepsEnum.checkStep:
-                nextStep = new SelectDbDataStepType(nextStepId, -1)
+                nextStep = new StepType(nextStepId, nextStepId, StepsEnum.checkStep, new SelectDbDataStepSettingsType())
                 addStep(<PreviewCheckStep key={nextStepId}
+                                          id={nextStepId}
                                           stepType={nextStep}
                                           setDeletedStepId={setDeletedStepId}
                 />, nextStep)

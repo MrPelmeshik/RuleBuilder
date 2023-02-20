@@ -1,40 +1,38 @@
 import previewSelectDbDataStepStyle from './PreviewSelectDbDataStep.module.css'
-import isDeepEqual from 'fast-deep-equal/react'
 import mainFiledStyle from "../../../../../MainField.module.css";
-import React, {Dispatch, useEffect, useRef, useState} from "react";
+import React, {Dispatch, useEffect, useState} from "react";
 import {StepsHeader} from "../../../StepsHeader";
-import {StepType} from "../../../StepType";
-import {SelectDbDataStepType} from "../Types/SelectDbDataStepType";
-import {IStep} from "../../../IStep";
+import {SelectDbDataStepSettingsType} from "../Types/SelectDbDataStepSettingsType";
 
 
 export const PreviewSelectDbDataStep
-    :React.FC<{stepType:StepType, setDeletedStepId:Dispatch<number|null>}>
-    = ({stepType, setDeletedStepId}) =>
+    :React.FC<{id: number, stepSettings:SelectDbDataStepSettingsType, setDeletedStepId:Dispatch<number|null>}>
+    = ({id, stepSettings, setDeletedStepId}) =>
 {
     const [subTitle, setSubTitle] = useState('')
 
-    const source = 'test_local'
-    const schema = 'test_schema'
-    const table = 'test_table'
-
-    useEffect(() => {
+    const updateMetaDataPreview = () => {
         let headerDetail = ''
-        if (source) {
-            headerDetail = `из ${source}`
-            if (schema) {
-                headerDetail += `\tисточник:\t${schema}`
-                if (table)
-                    headerDetail += `.${table}`
+        if (stepSettings.source?.name) {
+            headerDetail = `из ${stepSettings.source?.name}`
+            if (stepSettings.schema?.name) {
+                headerDetail += `\tисточник:\t${stepSettings.schema.name}`
+                if (stepSettings.table?.name)
+                    headerDetail += `.${stepSettings.table.name}`
             }
         }
         setSubTitle(headerDetail)
-    }, [stepType instanceof SelectDbDataStepType ? stepType.source?.name : stepType])
-    const getTitle = ():string => 'Чтение данных'
+    }
+
+    useEffect(() => {
+        console.log('change stepSettings', stepSettings)
+        updateMetaDataPreview()
+    }, [stepSettings])
+    const getTitle = ():string => 'Чтение данных из БД'
 
 
     return <div className={mainFiledStyle.stepPreview}>
-        <StepsHeader title={getTitle()} subTitle={subTitle} stepType={stepType} setDeletedStepId={setDeletedStepId} />
+        <StepsHeader id={id} title={getTitle()} subTitle={subTitle} stepSettings={stepSettings} setDeletedStepId={setDeletedStepId} />
         <div className={mainFiledStyle.stepPreviewDescription}>
             PreviewSelectDbDataStep description
         </div>

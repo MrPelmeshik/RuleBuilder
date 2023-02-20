@@ -1,0 +1,1 @@
+docker run --name postgresql_pc_1 -p 5432:5432 -e POSTGRES_PASSWORD=postgrespw -d postgres:15.2
