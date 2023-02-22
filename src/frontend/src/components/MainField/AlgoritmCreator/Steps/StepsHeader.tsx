@@ -5,7 +5,6 @@ import {IconClose} from "@consta/icons/IconClose";
 import React, {Dispatch, useState} from "react";
 import {StepSettingModal} from "./StepSettingModal/StepSettingModal";
 import {IStepSettings} from "./IStepSettings";
-import cloneDeep from 'lodash.clonedeep';
 
 export const StepsHeader
     :React.FC<{id:number, title:string, subTitle:string, stepSettings:IStepSettings, setDeletedStepId:Dispatch<number|null>}>

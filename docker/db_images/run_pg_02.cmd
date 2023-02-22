@@ -1,0 +1,1 @@
+docker run --name pg_02 -p 5433:5432 -e POSTGRES_PASSWORD=password_pg_02 -d postgres:12.2

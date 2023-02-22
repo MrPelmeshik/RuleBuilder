@@ -36,8 +36,8 @@ def convertDictToConnectionParamList(connections: dict):
     connectionsParamList = []
     for connection in connections:
         connectionsParamList.append(__createConnectionParam(connection))
+        logging.info(f'Finishing getting connections (Received connections: id:{connectionsParamList[len(connectionsParamList) - 1].id}, name:{connectionsParamList[len(connectionsParamList) - 1].name})')
 
-    logging.info(f'Finishing getting connections (Received: ${len(connectionsParamList)} connections)')
     return connectionsParamList
 
 

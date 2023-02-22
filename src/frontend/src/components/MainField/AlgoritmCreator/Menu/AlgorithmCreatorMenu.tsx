@@ -7,6 +7,9 @@ import {Dispatch} from "react";
 import {StepsEnum} from "../Steps/StepsEnum";
 import {StepType} from "../Steps/StepType";
 import {SelectDbDataStepSettingsType} from "../Steps/SelectData/Db/Types/SelectDbDataStepSettingsType";
+import {PreviewHierarchyTestStep} from "../Steps/HierarchyTest/Preview/PreviewHierarchyTestStep";
+import {CheckStepSettingsType} from "../Steps/Check/Types/CheckStepSettingsType";
+import {HierarchyTestStepSettingsType} from "../Steps/HierarchyTest/Types/HierarchyTestStepSettingsType";
 
 
 export const AlgorithmCreatorMenu
@@ -24,10 +27,18 @@ export const AlgorithmCreatorMenu
                 />, nextStep)
                 break;
             case StepsEnum.checkStep:
-                nextStep = new StepType(nextStepId, nextStepId, StepsEnum.checkStep, new SelectDbDataStepSettingsType())
+                nextStep = new StepType(nextStepId, nextStepId, StepsEnum.checkStep, new CheckStepSettingsType())
                 addStep(<PreviewCheckStep key={nextStepId}
                                           id={nextStepId}
-                                          stepType={nextStep.settings}
+                                          stepSettings={nextStep.settings}
+                                          setDeletedStepId={setDeletedStepId}
+                />, nextStep)
+                break;
+            case StepsEnum.hierarchyTest:
+                nextStep = new StepType(nextStepId, nextStepId, StepsEnum.hierarchyTest, new HierarchyTestStepSettingsType())
+                addStep(<PreviewHierarchyTestStep key={nextStepId}
+                                          id={nextStepId}
+                                          stepSettings={nextStep.settings}
                                           setDeletedStepId={setDeletedStepId}
                 />, nextStep)
                 break;
@@ -44,12 +55,29 @@ export const AlgorithmCreatorMenu
             <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroup}>
                 <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroupHeader}>
                     <Text view={'secondary'} size={'xs'}>
+                        Тест:
+                    </Text>
+                </div>
+                <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroupList}>
+                    <Button
+                        label={'Иерархия'}
+                        title={'Добавить тестовый шаг создания иерархии'}
+                        onClick={() => addNextStep(StepsEnum.hierarchyTest)}
+                        size={'xs'}
+                        view={'ghost'}
+                        iconLeft={IconAdd}
+                    />
+                </div>
+            </div>
+            <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroup}>
+                <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroupHeader}>
+                    <Text view={'secondary'} size={'xs'}>
                         Чтение данных:
                     </Text>
                 </div>
                 <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroupList}>
                     <Button
-                        label={' БД'}
+                        label={'БД'}
                         title={'Добавить шаг считывания данных из БД'}
                         onClick={() => addNextStep(StepsEnum.selectDbDataStep)}
                         size={'xs'}

@@ -12,14 +12,19 @@ import {StepsEnum} from "../StepsEnum";
 import {IStepSettings} from "../IStepSettings";
 import {SelectDbDataStepSettingsType} from "../SelectData/Db/Types/SelectDbDataStepSettingsType";
 import {CheckStepSettingsType} from "../Check/Types/CheckStepSettingsType";
+import {DetailHierarchyTestStep} from "../HierarchyTest/Detail/DetailHierarchyTestStep";
+import {HierarchyTestStepSettingsType} from "../HierarchyTest/Types/HierarchyTestStepSettingsType";
 
 
 const getComponentDetail = (stepSettings:IStepSettings) => {
   if (stepSettings instanceof SelectDbDataStepSettingsType) {
-    return <DetailSelectDbDataStep stepSettings={stepSettings}/>;
+    return <DetailSelectDbDataStep stepSettings={stepSettings} />;
   }
   if (stepSettings instanceof CheckStepSettingsType) {
     return <>Модальное окно для шага проверки</>;
+  }
+  if (stepSettings instanceof HierarchyTestStepSettingsType) {
+    return <DetailHierarchyTestStep stepSettings={stepSettings} />
   }
 };
 

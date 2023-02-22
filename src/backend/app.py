@@ -47,7 +47,7 @@ app.add_middleware(CORSMiddleware,
 argv = sys.argv
 settings = loadSettings()
 system_connections = convertDictToConnectionParamList(settings['connections'])
-system_connection = getParam(system_connections, 'postgresql_' + argv[1])
+system_connection = getParam(system_connections, 'pg_01_rb')
 
 
 # region sub function
