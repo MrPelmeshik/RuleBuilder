@@ -13,7 +13,7 @@ import {IconFilter} from "@consta/icons/IconFilter";
 import {Text} from "@consta/uikit/Text";
 import {IconSettings} from "@consta/icons/IconSettings";
 import {Switch} from "@consta/uikit/Switch";
-import {FilterConfigurator} from "./FilterConfigurator/FilterConfigurator";
+import {FilterConfigurator} from "../../../Filter/Core/FilterConfigurator/FilterConfigurator";
 import {SourceMetaType} from "../Types/SourceMetaType";
 import {SelectItemType} from "../../../../../../../Types/SelectItemType";
 import {SelectDbDataStepSettingsType} from "../Types/SelectDbDataStepSettingsType";
@@ -176,7 +176,7 @@ export const DetailSelectDbDataStep
             <Text size={'s'} as={'b'}>Параметры фильтрации</Text>
         </div>
         <div className={detailSelectDbDataStepStyle.selectorSettingGroupContent}>
-            <FilterConfigurator />
+            <FilterConfigurator stepSettings={stepSettings} />
         </div>
         {/*<div className={detailSelectDbDataStepStyle.selectorSettingGroupHeader}>
             <IconEye size={'s'}/>

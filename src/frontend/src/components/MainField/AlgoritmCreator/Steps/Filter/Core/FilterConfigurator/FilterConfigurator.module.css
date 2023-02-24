@@ -1,0 +1,23 @@
+.filterComplex {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1vh;
+    /*align-items: flex-start;*/
+    flex-grow: 1;
+    background-color: var(--color-bg-ghost);
+}
+
+.filterComplexFiled {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1vh;
+    /*align-items: flex-start;*/
+    flex-grow: 1;
+    padding-left: 2vw;
+}
+
+.filterButtonBlock {
+    display: flex;
+    flex-direction: row;
+    column-gap: 0.2vw;
+}

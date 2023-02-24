@@ -3,18 +3,19 @@ import React, {Dispatch, useEffect, useState} from "react";
 import {FieldGroup} from "@consta/uikit/FieldGroup";
 import {TextField} from "@consta/uikit/TextField";
 import {Select} from "@consta/uikit/Select";
-import {SelectItemType} from "../../../../../../../../../../Types/SelectItemType";
-import {LogicTypesEnum} from "../../../../../../../../../../Types/LogicTypesEnum";
-import {FilterActionEventTypesEnum} from "../../../../../../../../../../Types/FilterActionEventTypesEnum";
+import {SelectItemType} from "../../../../../../../../../Types/SelectItemType";
+import {LogicTypesEnum} from "../../../../../../../../../Types/LogicTypesEnum";
+import {FilterActionEventTypesEnum} from "../../../../../../../../../Types/FilterActionEventTypesEnum";
 import {AutoComplete} from "@consta/uikit/AutoCompleteCanary";
 import {Button} from "@consta/uikit/Button";
 import {FilterComplexItem} from "../FilterComplexItem";
 import {IconTrash} from "@consta/icons/IconTrash";
+import {FilterItemType} from "../../../Type/FilterItemType";
 
 
 export const FilterItem
-    :React.FC<{id:number, setDeletedFilterId:Dispatch<number | null>}>
-    = ({id, setDeletedFilterId}) => {
+    :React.FC<{id:number, filterItem: FilterItemType, setParentDeletedFilterById:Dispatch<number | null>}>
+    = ({id, filterItem, setParentDeletedFilterById}) => {
     const [fields, setFields] = useState<SelectItemType[]>([])
     const [selectedField, setSelectedField] = useState<SelectItemType | null>()
 
@@ -85,7 +86,7 @@ export const FilterItem
                 onlyIcon
                 size={'xs'}
                 view={'ghost'}
-                onClick={() => setDeletedFilterId(id)}
+                onClick={() => setParentDeletedFilterById(id)}
         />
     </div>
 }
