@@ -10,96 +10,113 @@ import {FilterConfigType} from "../../Type/FilterConfigType";
 import {testComplexItem, testItem} from "../../../../HierarchyTest/Detail/DetailHierarchyTestStep";
 import {Item} from "../../../../HierarchyTest/Detail/ComplexItem/Item/Item";
 import {debug} from "util";
+import {Tag} from "@consta/uikit/Tag";
 
 
 export const FilterComplexItem
     :React.FC<{id: number, filterConfig: FilterConfigType[] | FilterItemType[] | undefined, setParentDeletedFilterById: Dispatch<number| null>, parentUpdateFilterItem: Function, getNextFilterItemIdOnParentLevel: Function}>
     = ({id, filterConfig, setParentDeletedFilterById, parentUpdateFilterItem, getNextFilterItemIdOnParentLevel}) => {
-    // const [filterItems, setFilterItems] = useState<JSX.Element[]>([])
     const [deletedFilterId, setDeletedFilterId] = useState<number | null>()
-    // const [filters, setFilters] = useState(filterConfig)
     const [content, setContent] = useState<JSX.Element[]>()
+    const [filters, setFilters] = useState<FilterConfigType[] | FilterItemType[] | undefined>(filterConfig)
 
-    const updateFilterItem = (id: number, newFilters: FilterConfigType[] | FilterItemType[]) => {
-        if (filterConfig) {
-            filterConfig.forEach(filter => {
-                if (filter.id === id) {
+    const updateFilterItem = (updatedFilterId: number, newFiltersConfig: FilterConfigType[] | FilterItemType[]) => {
+        console.log(`${id}: updateFilterItem for ${updatedFilterId}. Current state:`, filters, '. New state:', newFiltersConfig)
+        if (filters) {
+            const newFilters = filters.map(filter => {
+                if (filter.id === updatedFilterId) {
                     if (filter instanceof FilterConfigType) {
-                        filter.filters = newFilters
+                        filter.filters = newFiltersConfig
                     }
                 }
+                return filter
             })
+            setFilters(newFilters)
+            parentUpdateFilterItem(id, newFilters)
         }
     }
 
-    const getNextFilterItemId = (): number => filterConfig ? Math.max(0, ...filterConfig.map(x => x.id)) + 1 : 0
+    const getNextFilterItemId = (): number => filters && filters.length > 0 ? Math.max(0, ...filters.map(x => x.id)) + 1 : 0
 
     useEffect(() => {
-        if (filterConfig && (filterConfig.length > 0)) {
-            const t = filterConfig[0]
-            if (t instanceof FilterConfigType) {
-                const newFilters = (filterConfig as FilterConfigType[]).filter((x) => x.id === deletedFilterId)
-                parentUpdateFilterItem(id, newFilters)
+        if (deletedFilterId) {
+            console.log(`${id}: deleted ${deletedFilterId}`)
+            if (filters && filters.length > 0) {
+                const t = filters[0]
+                if (t instanceof FilterConfigType) {
+                    const newFilters = (filters as FilterConfigType[]).filter((x) => x.id === deletedFilterId)
+                    parentUpdateFilterItem(id, newFilters)
+                }
+                if (t instanceof FilterItemType) {
+                    const newFilters = (filters as FilterItemType[]).filter((x) => x.id === deletedFilterId)
+                    parentUpdateFilterItem(id, newFilters)
+                }
             }
+            setDeletedFilterId(null)
         }
-        setDeletedFilterId(null)
     }, [deletedFilterId])
 
     const addNewFilterItem = () => {
-        console.log('addNewFilterItem', filterConfig)
-        if (filterConfig && (filterConfig.length > 0)) {
-            const t = filterConfig[0]
+        console.log(`${id}: addNewFilterItem. Current state:`, filters)
+        if (filters && filters.length > 0) {
+            const t = filters[0]
             if (t instanceof FilterConfigType) {
-                const newFilterItem = [...(filterConfig as FilterConfigType[]), new FilterConfigType(getNextFilterItemId())]
-                parentUpdateFilterItem(id, newFilterItem)
+                const newFilters = [...(filters as FilterConfigType[]), new FilterConfigType(getNextFilterItemId())]
+                parentUpdateFilterItem(id, newFilters)
+                // setFilters([...(filters as FilterConfigType[]), new FilterConfigType(getNextFilterItemId())])
             } else if (t instanceof FilterItemType) {
-                const newFilterItem = [...(filterConfig as FilterItemType[]), new FilterItemType(getNextFilterItemId())]
-                parentUpdateFilterItem(id, newFilterItem)
+                const newFilters = [...(filters as FilterItemType[]), new FilterItemType(getNextFilterItemId())]
+                parentUpdateFilterItem(id, newFilters)
+                // setFilters([...(filters as FilterItemType[]), new FilterItemType(getNextFilterItemId())])
+            } else {
+                console.log("Error object", t)
+                throw new Error("Incorrect type for Filter")
             }
         } else {
-            const newFilterItem = [new FilterItemType(getNextFilterItemId())]
-            parentUpdateFilterItem(id, newFilterItem)
-            // throw new Error("Empty filters");
+            const newFilters = [new FilterItemType(getNextFilterItemId())]
+            parentUpdateFilterItem(id, newFilters)
+            // setFilters([new FilterItemType(getNextFilterItemId())])
         }
     }
 
     const wrapFilterItems = () => {
-        if (filterConfig) {
-            const newFilters = filterConfig.slice()
-            const newFilterConfig = new FilterConfigType(getNextFilterItemIdOnParentLevel(), newFilters)
+        console.log(`${id}: wrap. Current state:`, filters)
+        if (filters) {
+            const newFilterConfig = new FilterConfigType(getNextFilterItemIdOnParentLevel(), filters)
             parentUpdateFilterItem(id, [newFilterConfig])
         }
     }
 
     useEffect(() => {
-        if (filterConfig && (filterConfig.length > 0)) {
-            const t = filterConfig[0]
+        console.log(`${id}: updated filters. Current state:`, filters)
+        if (filters && filters.length > 0) {
+            const t = filters[0]
             if (t instanceof FilterConfigType) {
-                const nextId = getNextFilterItemId()
-                setContent((filterConfig as FilterConfigType[])
-                    .map(filter => <FilterComplexItem key={nextId}
-                                                      id={nextId}
+                setContent((filters as FilterConfigType[])
+                    .map(filter => <FilterComplexItem key={filter.id}
+                                                      id={filter.id}
                                                       filterConfig={filter.filters}
                                                       setParentDeletedFilterById={setDeletedFilterId}
                                                       getNextFilterItemIdOnParentLevel={getNextFilterItemId}
                                                       parentUpdateFilterItem={updateFilterItem}
                     />))
             } else if (t instanceof FilterItemType) {
-                const nextId = getNextFilterItemId()
-                setContent((filterConfig as FilterItemType[])
-                    .map(filter => <FilterItem key={nextId}
-                                               id={nextId}
+                setContent((filters as FilterItemType[])
+                    .map(filter => <FilterItem key={filter.id}
+                                               id={filter.id}
                                                filterItem={filter}
                                                setParentDeletedFilterById={setDeletedFilterId}
                     />))
+            } else {
+                console.log("Error object", t)
+                throw new Error("Incorrect type for Filter");
             }
-            // throw new Error("Incorrect type for Filter. This: " + typeof filterConfig[0]);
         }
         // throw new Error("Empty filters");
-    }, [JSON.stringify(filterConfig)])
+    }, [JSON.stringify(filters), JSON.stringify(filterConfig)])
 
     return <div className={filterConfiguratorStyle.filterComplex}>
-        <b>(</b>
+        <b><Tag label={'id:' + id} size={'xs'} mode={'info'} />(</b>
         <div className={filterConfiguratorStyle.filterComplexFiled}>
             {content}
         </div>

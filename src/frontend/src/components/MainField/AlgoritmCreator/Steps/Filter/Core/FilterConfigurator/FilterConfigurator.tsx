@@ -12,36 +12,16 @@ import {FilterItemType} from "../Type/FilterItemType";
 export const FilterConfigurator
     :React.FC<{stepSettings: SelectDbDataStepSettingsType}>
     = ({stepSettings}) => {
-    const [mainFilterConfig, setMainFilterConfig] = useState<FilterConfigType[] | FilterItemType[]>([new FilterConfigType(0)])
+    const [mainFilterConfig, setMainFilterConfig] = useState<FilterConfigType[] | FilterItemType[]>([])
     const [deletedFilterId, setDeletedFilterId] = useState<number | null>()
-    const getNextFilterItemId = (): number => mainFilterConfig ? Math.max(0, ...mainFilterConfig.map(x => x.id)) + 1 : 0
+    const getNextFilterItemId = (): number => mainFilterConfig && mainFilterConfig.length > 0 ? Math.max(0, ...mainFilterConfig.map(x => x.id)) + 1 : 0
     const updateFilterItem = (id: number, newFilters: FilterConfigType[] | FilterItemType[]) => {
-        console.log('updateFilterItem', id, mainFilterConfig, newFilters)
-        /*if (mainFilterConfig) {
-            mainFilterConfig.map(filter => {
-                if (filter.id === id) {
-                    if (filter instanceof FilterConfigType) {
-                        console.log('updated')
-                        filter.filters = newFilters
-                    }
-                }
-            })
-        }*/
-        setMainFilterConfig([new FilterConfigType(0, newFilters)])
+        console.log(`(p): parentUpdateFilterItem for ${id}. Current state:`, mainFilterConfig, '. New state:', newFilters)
+        setMainFilterConfig(newFilters)
     }
-    useEffect(() => {
-        if (mainFilterConfig && (mainFilterConfig.length > 0)) {
-            const t = mainFilterConfig[0]
-            if (t instanceof FilterConfigType) {
-                const newFilters = (mainFilterConfig as FilterConfigType[]).filter((x) => x.id === deletedFilterId)
-                setMainFilterConfig(newFilters)
-            }
-        }
-        setDeletedFilterId(null)
-    }, [deletedFilterId])
     const [content, setContent] = useState<JSX.Element[]>([
-        <FilterComplexItem id={0}
-                           key={0}
+        <FilterComplexItem id={getNextFilterItemId()}
+                           key={getNextFilterItemId()}
                            filterConfig={mainFilterConfig}
                            setParentDeletedFilterById={setDeletedFilterId}
                            getNextFilterItemIdOnParentLevel={getNextFilterItemId}
@@ -49,15 +29,35 @@ export const FilterConfigurator
         />])
 
     useEffect(() => {
-        console.log('trigger')
+        if (deletedFilterId) {
+            console.log(`(p): deleted ${deletedFilterId}`)
+            if (mainFilterConfig && mainFilterConfig.length > 0) {
+                const t = mainFilterConfig[0]
+                if (t instanceof FilterConfigType) {
+                    const newFilters = (mainFilterConfig as FilterConfigType[]).filter((x) => x.id === deletedFilterId)
+                    setMainFilterConfig(newFilters)
+                } else if (t instanceof FilterItemType) {
+                    const newFilters = (mainFilterConfig as FilterItemType[]).filter((x) => x.id === deletedFilterId)
+                    setMainFilterConfig(newFilters)
+                } else {
+                    console.log("Error object", t)
+                    throw new Error("Incorrect type for Filter")
+                }
+            }
+            setDeletedFilterId(null)
+        }
+    }, [deletedFilterId])
+
+    useEffect(() => {
+        console.log(`(p): rewrite. Current state:`, mainFilterConfig)
         setContent([
-        <FilterComplexItem id={0}
-                           key={0}
-                           filterConfig={mainFilterConfig}
-                           setParentDeletedFilterById={setDeletedFilterId}
-                           getNextFilterItemIdOnParentLevel={getNextFilterItemId}
-                           parentUpdateFilterItem={updateFilterItem}
-        />])
+            <FilterComplexItem id={getNextFilterItemId()}
+                               key={getNextFilterItemId()}
+                               filterConfig={mainFilterConfig}
+                               setParentDeletedFilterById={setDeletedFilterId}
+                               getNextFilterItemIdOnParentLevel={getNextFilterItemId}
+                               parentUpdateFilterItem={updateFilterItem}
+            />])
     }, [JSON.stringify(mainFilterConfig)])
 
     return <div className={filterConfiguratorStyle.filterComplex}>

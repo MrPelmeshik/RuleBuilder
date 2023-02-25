@@ -11,6 +11,7 @@ import {Button} from "@consta/uikit/Button";
 import {FilterComplexItem} from "../FilterComplexItem";
 import {IconTrash} from "@consta/icons/IconTrash";
 import {FilterItemType} from "../../../Type/FilterItemType";
+import {Tag} from "@consta/uikit/Tag";
 
 
 export const FilterItem
@@ -53,6 +54,7 @@ export const FilterItem
     }, [])
 
     return <div className={filterItemStyle.filteConfigurator}>
+        <Tag label={'id:' + id} size={'xs'} mode={'info'} />
         <Select items={fields}
                 value={selectedField}
                 onChange={({value}) => setSelectedField(value)}

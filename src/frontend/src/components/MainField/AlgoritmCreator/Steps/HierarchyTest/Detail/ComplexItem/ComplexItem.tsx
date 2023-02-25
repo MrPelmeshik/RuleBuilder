@@ -8,18 +8,6 @@ export const ComplexItem
     :React.FC<{complexItems: testComplexItem[] | testItem[]}>
     = ({complexItems}) =>
 {
-    // const [filterItems, setFilterItems] = useState<JSX.Element[]>([])
-    // const [deletedFilterId, setDeletedFilterId] = useState<number | null>()
-    //
-    // useEffect(() => {
-    //     setFilterItems([...(filterItems.filter(x => x.props.id !== deletedFilterId))])
-    //     setDeletedFilterId(null)
-    // }, [deletedFilterId])
-    //
-    // const addFilterItem = (item: JSX.Element) => setFilterItems([...filterItems, item])
-    // const getNextFilterItemId = (): number => Math.max(0, ...filterItems.map(x => x.props.id)) + 1
-
-
     const [items, setitems] = useState(complexItems)
     const [content, setContent] = useState<JSX.Element[]>()
 
