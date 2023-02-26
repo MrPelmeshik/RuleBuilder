@@ -12,11 +12,12 @@ import {FilterComplexItem} from "../FilterComplexItem";
 import {IconTrash} from "@consta/icons/IconTrash";
 import {FilterItemType} from "../../../Type/FilterItemType";
 import {Tag} from "@consta/uikit/Tag";
+import {SelectDbDataStepSettingsType} from "../../../../../SelectData/Db/Types/SelectDbDataStepSettingsType";
 
 
 export const FilterItem
-    :React.FC<{id:number, filterItem: FilterItemType, setParentDeletedFilterById:Dispatch<number | null>}>
-    = ({id, filterItem, setParentDeletedFilterById}) => {
+    :React.FC<{id:number, filterItem: FilterItemType, setParentDeletedFilterById:Dispatch<number | null>, stepSettings: SelectDbDataStepSettingsType}>
+    = ({id, filterItem, setParentDeletedFilterById, stepSettings}) => {
     const [fields, setFields] = useState<SelectItemType[]>([])
     const [selectedField, setSelectedField] = useState<SelectItemType | null>()
 
@@ -27,20 +28,10 @@ export const FilterItem
     const [selectedConnectionProperty, setSelectedConnectionProperty] = useState<SelectItemType | null>()
 
     useEffect(() => {
-        setFields([
-            {
-                id: 0,
-                label: 'test_0'
-            },
-            {
-                id: 1,
-                label: 'test_1'
-            },
-            {
-                id: 2,
-                label: 'test_2'
-            }
-        ])
+        setFields(stepSettings.metaData?.filter(column => column.isActive).map((column, index) => ({
+            id: index,
+            label: column.columnName
+        })) ?? [])
         setActions(
             Object.keys(LogicTypesEnum)
                 .filter(x => !Number.isNaN(Number(x)))
@@ -54,7 +45,7 @@ export const FilterItem
     }, [])
 
     return <div className={filterItemStyle.filteConfigurator}>
-        <Tag label={'id:' + id} size={'xs'} mode={'info'} />
+        {/*<Tag label={'id:' + id} size={'xs'} mode={'info'} />*/}
         <Select items={fields}
                 value={selectedField}
                 onChange={({value}) => setSelectedField(value)}
@@ -70,7 +61,7 @@ export const FilterItem
                 className={filterItemStyle.filteConfiguratorControl}
         />
         <div className={filterItemStyle.filteConfiguratorField}>
-
+            target_values
         </div>
         <AutoComplete items={fields}
                       size={'xs'}

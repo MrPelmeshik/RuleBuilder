@@ -19,6 +19,7 @@ import {SelectItemType} from "../../../../../../../Types/SelectItemType";
 import {SelectDbDataStepSettingsType} from "../Types/SelectDbDataStepSettingsType";
 import {SchemaMetaType} from "../Types/SchemaMetaType";
 import {TableMetaType} from "../Types/TableMetaType";
+import {ColumnMetaType} from "../Types/ColumnMetaType";
 
 
 export const DetailSelectDbDataStep
@@ -38,7 +39,7 @@ export const DetailSelectDbDataStep
     const [tables, setTables] = useState<TableMetaType[]>([])
 
     const [dataPreview, setDataPreview] = useState<any[] | null>([])
-    const [columns, setColumns] = useState<any[] | null>([])
+    const [columns, setColumns] = useState<ColumnMetaType[] | null>([])
 
     // region get data from API
 
@@ -78,10 +79,11 @@ export const DetailSelectDbDataStep
             //     .then(response => setDataPreview(() => response))
 
             getColumnsByTable(sourceItem.label, schemaItem.label, tableItem.id)
-                .then(response => setColumns(response.map((r, i) => ({
-                        'columnName': r.columnName,
-                        'columnType': r.columnType,
-                        'isActive': <Switch size={'s'} checked={true}/>
+                .then(response => setColumns(response.map(column => ({
+                        columnName: column.columnName,
+                        baseType: column.columnType,
+                        currentType: column.columnType,
+                        isActive: true
                     }))))
 
             stepSettings.table = {
@@ -106,7 +108,7 @@ export const DetailSelectDbDataStep
     }, [sources])
 
     useEffect(() => {
-            setSchemasItems(schemas.map(schema => ({label: schema.name, id: schema.id})))
+        setSchemasItems(schemas.map(schema => ({label: schema.name, id: schema.id})))
 
         if (stepSettings.schema && schemas.find(schema => schema.id === stepSettings.schema?.id)) {
             setSchemaItem({id: stepSettings.schema?.id, label: stepSettings.schema?.name})
@@ -114,12 +116,20 @@ export const DetailSelectDbDataStep
     }, [schemas])
 
     useEffect(() => {
-            setTablesItems(tables.map(table => ({label: table.name, id: table.id})))
+        setTablesItems(tables.map(table => ({label: table.name, id: table.id})))
 
         if (stepSettings.table && tables.find(table => table.id === stepSettings.table?.id)) {
             setTableItem({id: stepSettings.table?.id, label: stepSettings.table?.name})
         }
     }, [tables])
+
+    useEffect(() => {
+        if (columns) {
+            stepSettings.metaData = columns
+        } else {
+            stepSettings.metaData = []
+        }
+    }, [columns])
 
     // endregion
 
