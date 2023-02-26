@@ -10,6 +10,20 @@ import {SelectDbDataStepSettingsType} from "../Steps/SelectData/Db/Types/SelectD
 import {PreviewHierarchyTestStep} from "../Steps/HierarchyTest/Preview/PreviewHierarchyTestStep";
 import {CheckStepSettingsType} from "../Steps/Check/Types/CheckStepSettingsType";
 import {HierarchyTestStepSettingsType} from "../Steps/HierarchyTest/Types/HierarchyTestStepSettingsType";
+import {IconKernFilled} from "@consta/icons/IconKernFilled";
+import {IconTable} from "@consta/icons/IconTable";
+import {IconStorage} from "@consta/icons/IconStorage";
+import {IconDocBlank} from "@consta/icons/IconDocBlank";
+import {IconFunnel} from "@consta/uikit/IconFunnel";
+import {IconBackward} from "@consta/icons/IconBackward";
+import {IconForward} from "@consta/icons/IconForward";
+import {IconDown} from "@consta/icons/IconDown";
+import {IconTop} from "@consta/icons/IconTop";
+import {IconCalculator} from "@consta/icons/IconCalculator";
+import {IconWrench} from "@consta/icons/IconWrench";
+import {IconSearchStroked} from "@consta/icons/IconSearchStroked";
+import {IconGrouping} from "@consta/icons/IconGrouping";
+import {IconTest} from "@consta/icons/IconTest";
 
 
 export const AlgorithmCreatorMenu
@@ -55,7 +69,8 @@ export const AlgorithmCreatorMenu
             <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroup}>
                 <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroupHeader}>
                     <Text view={'secondary'} size={'xs'}>
-                        Тест:
+                        <IconTest size={'xs'} />
+                        Тестовые:
                     </Text>
                 </div>
                 <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroupList}>
@@ -64,8 +79,8 @@ export const AlgorithmCreatorMenu
                         title={'Добавить тестовый шаг создания иерархии'}
                         onClick={() => addNextStep(StepsEnum.hierarchyTest)}
                         size={'xs'}
-                        view={'ghost'}
-                        iconLeft={IconAdd}
+                        view={'secondary'}
+                        iconLeft={IconTest}
                     />
                 </div>
             </div>
@@ -81,8 +96,8 @@ export const AlgorithmCreatorMenu
                         title={'Добавить шаг считывания данных из БД'}
                         onClick={() => addNextStep(StepsEnum.selectDbDataStep)}
                         size={'xs'}
-                        view={'ghost'}
-                        iconLeft={IconAdd}
+                        view={'secondary'}
+                        iconLeft={IconKernFilled}
                     />
                     <Button
                         label={'API'}
@@ -90,8 +105,8 @@ export const AlgorithmCreatorMenu
                         onClick={() => {
                         }}
                         size={'xs'}
-                        view={'ghost'}
-                        iconLeft={IconAdd}
+                        view={'secondary'}
+                        iconLeft={IconStorage}
                         disabled={true}
                     />
                     <Button
@@ -100,8 +115,8 @@ export const AlgorithmCreatorMenu
                         onClick={() => {
                         }}
                         size={'xs'}
-                        view={'ghost'}
-                        iconLeft={IconAdd}
+                        view={'secondary'}
+                        iconLeft={IconDocBlank}
                         disabled={true}
                     />
                     <Button
@@ -110,8 +125,8 @@ export const AlgorithmCreatorMenu
                         onClick={() => {
                         }}
                         size={'xs'}
-                        view={'ghost'}
-                        iconLeft={IconAdd}
+                        view={'secondary'}
+                        iconLeft={IconDocBlank}
                         disabled={true}
                     />
                     <Button
@@ -120,8 +135,8 @@ export const AlgorithmCreatorMenu
                         onClick={() => {
                         }}
                         size={'xs'}
-                        view={'ghost'}
-                        iconLeft={IconAdd}
+                        view={'secondary'}
+                        iconLeft={IconDocBlank}
                         disabled={true}
                     />
                 </div>
@@ -138,8 +153,8 @@ export const AlgorithmCreatorMenu
                         title={'Добавить шаг проверки'}
                         onClick={() => addNextStep(StepsEnum.checkStep)}
                         size={'xs'}
-                        view={'ghost'}
-                        iconLeft={IconAdd}
+                        view={'secondary'}
+                        iconLeft={IconSearchStroked}
                     />
                 </div>
             </div>
@@ -156,8 +171,8 @@ export const AlgorithmCreatorMenu
                         onClick={() => {
                         }}
                         size={'xs'}
-                        view={'ghost'}
-                        iconLeft={IconAdd}
+                        view={'secondary'}
+                        iconLeft={IconBackward}
                         disabled={true}
                     />
                     <Button
@@ -166,8 +181,8 @@ export const AlgorithmCreatorMenu
                         onClick={() => {
                         }}
                         size={'xs'}
-                        view={'ghost'}
-                        iconLeft={IconAdd}
+                        view={'secondary'}
+                        iconLeft={IconForward}
                         disabled={true}
                     />
                     <Button
@@ -176,8 +191,8 @@ export const AlgorithmCreatorMenu
                         onClick={() => {
                         }}
                         size={'xs'}
-                        view={'ghost'}
-                        iconLeft={IconAdd}
+                        view={'secondary'}
+                        iconLeft={IconDown}
                         disabled={true}
                     />
                     <Button
@@ -186,27 +201,8 @@ export const AlgorithmCreatorMenu
                         onClick={() => {
                         }}
                         size={'xs'}
-                        view={'ghost'}
-                        iconLeft={IconAdd}
-                        disabled={true}
-                    />
-                </div>
-            </div>
-            <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroup}>
-                <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroupHeader}>
-                    <Text view={'secondary'} size={'xs'}>
-                        Фильтрация:
-                    </Text>
-                </div>
-                <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroupList}>
-                    <Button
-                        label={'Фильтрация'}
-                        title={'Добавить шаг фильтрации'}
-                        onClick={() => {
-                        }}
-                        size={'xs'}
-                        view={'ghost'}
-                        iconLeft={IconAdd}
+                        view={'secondary'}
+                        iconLeft={IconTop}
                         disabled={true}
                     />
                 </div>
@@ -219,13 +215,23 @@ export const AlgorithmCreatorMenu
                 </div>
                 <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroupList}>
                     <Button
+                        label={'Фильтрация'}
+                        title={'Добавить шаг фильтрации'}
+                        onClick={() => {
+                        }}
+                        size={'xs'}
+                        view={'secondary'}
+                        iconLeft={IconFunnel}
+                        disabled={true}
+                    />
+                    <Button
                         label={'Модифицировать'}
                         title={''}
                         onClick={() => {
                         }}
                         size={'xs'}
-                        view={'ghost'}
-                        iconLeft={IconAdd}
+                        view={'secondary'}
+                        iconLeft={IconWrench}
                         disabled={true}
                     />
                     <Button
@@ -234,7 +240,7 @@ export const AlgorithmCreatorMenu
                         onClick={() => {
                         }}
                         size={'xs'}
-                        view={'ghost'}
+                        view={'secondary'}
                         iconLeft={IconAdd}
                         disabled={true}
                     />
@@ -244,8 +250,18 @@ export const AlgorithmCreatorMenu
                         onClick={() => {
                         }}
                         size={'xs'}
-                        view={'ghost'}
-                        iconLeft={IconAdd}
+                        view={'secondary'}
+                        iconLeft={IconCalculator}
+                        disabled={true}
+                    />
+                    <Button
+                        label={'Группировка'}
+                        title={''}
+                        onClick={() => {
+                        }}
+                        size={'xs'}
+                        view={'secondary'}
+                        iconLeft={IconGrouping}
                         disabled={true}
                     />
                 </div>

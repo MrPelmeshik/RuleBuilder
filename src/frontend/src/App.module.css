@@ -4,6 +4,7 @@
   height: 100vh;
   flex-grow: 1;
 
+  font-size: 1em;
   color: var(--color-typo-primary);
 }
 

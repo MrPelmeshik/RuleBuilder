@@ -10,7 +10,7 @@
     align-items: center;
     column-gap: 1vw;
     padding: 0.5vh 0;
-    border-bottom: var(--control-border-width) solid var(--color-control-bg-border-default);
+    /*border-bottom: var(--control-border-width) solid var(--color-control-bg-border-default);*/
 }
 
 .selectorSettingGroupContent {

@@ -11,7 +11,7 @@ export const FilterConfigurator
     :React.FC<{stepSettings: SelectDbDataStepSettingsType}>
     = ({stepSettings}) =>
 {
-    const [mainFilterConfig, setMainFilterConfig] = useState<FilterConfigType[] | FilterItemType[]>([])
+    const [mainFilterConfig, setMainFilterConfig] = useState<FilterConfigType[] | FilterItemType[]>(stepSettings.filters && stepSettings.filters.filters ? stepSettings.filters.filters : [])
     const [deletedFilterId, setDeletedFilterId] = useState<number | null>()
 
     const getNextFilterItemId = (): number => mainFilterConfig && mainFilterConfig.length > 0 ? Math.max(0, ...mainFilterConfig.map(x => x.id)) + 1 : 1

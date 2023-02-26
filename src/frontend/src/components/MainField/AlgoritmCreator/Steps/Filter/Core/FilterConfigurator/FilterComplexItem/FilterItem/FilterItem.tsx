@@ -4,8 +4,6 @@ import {FieldGroup} from "@consta/uikit/FieldGroup";
 import {TextField} from "@consta/uikit/TextField";
 import {Select} from "@consta/uikit/Select";
 import {SelectItemType} from "../../../../../../../../../Types/SelectItemType";
-import {LogicTypesEnum} from "../../../../../../../../../Types/LogicTypesEnum";
-import {FilterActionEventTypesEnum} from "../../../../../../../../../Types/FilterActionEventTypesEnum";
 import {AutoComplete} from "@consta/uikit/AutoCompleteCanary";
 import {Button} from "@consta/uikit/Button";
 import {FilterComplexItem} from "../FilterComplexItem";
@@ -13,6 +11,8 @@ import {IconTrash} from "@consta/icons/IconTrash";
 import {FilterItemType} from "../../../Type/FilterItemType";
 import {Tag} from "@consta/uikit/Tag";
 import {SelectDbDataStepSettingsType} from "../../../../../SelectData/Db/Types/SelectDbDataStepSettingsType";
+import {LogicTypeList} from "../../../Type/LogicTypeList";
+import {ComparisonTypeList} from "../../../Type/ComparisonTypeList";
 
 
 export const FilterItem
@@ -28,53 +28,68 @@ export const FilterItem
     const [selectedConnectionProperty, setSelectedConnectionProperty] = useState<SelectItemType | null>()
 
     useEffect(() => {
-        setFields(stepSettings.metaData?.filter(column => column.isActive).map((column, index) => ({
-            id: index,
-            label: column.columnName
-        })) ?? [])
+        setFields(
+            stepSettings.metaData?.filter(column => column.isActive).map((column, index) => ({
+                id: index,
+                label: column.columnName
+            })) ?? []
+        )
         setActions(
-            Object.keys(LogicTypesEnum)
-                .filter(x => !Number.isNaN(Number(x)))
-                .map(type => ({id: Number(type), label: LogicTypesEnum[Number(type)]}))
+            LogicTypeList.map((logicType, index) => ({
+                id: index,
+                label: logicType
+            }))
         )
         setConnectionProperties(
-            Object.keys(FilterActionEventTypesEnum)
-                .filter(x => !Number.isNaN(Number(x)))
-                .map(type => ({id: Number(type), label: FilterActionEventTypesEnum[Number(type)]}))
+            ComparisonTypeList.map((comparisonType, index) => ({
+                id: index,
+                label: comparisonType.label
+            }))
         )
     }, [])
 
     return <div className={filterItemStyle.filteConfigurator}>
         {/*<Tag label={'id:' + id} size={'xs'} mode={'info'} />*/}
-        <Select items={fields}
-                value={selectedField}
-                onChange={({value}) => setSelectedField(value)}
-                size={'xs'}
-                view={'clear'}
-                className={filterItemStyle.filteConfiguratorField}
-        />
-        <Select items={connectionProperties}
-                value={selectedConnectionProperty}
-                onChange={({value}) => setSelectedConnectionProperty(value)}
-                size={'xs'}
-                view={'clear'}
-                className={filterItemStyle.filteConfiguratorControl}
-        />
-        <div className={filterItemStyle.filteConfiguratorField}>
-            target_values
+        <div className={filterItemStyle.filteConfiguratorItemM}>
+            <Select items={fields}
+                    value={selectedField}
+                    onChange={({value}) => setSelectedField(value)}
+                    size={'xs'}
+                    view={'clear'}
+                    className={filterItemStyle.filteConfiguratorField}
+            />
         </div>
-        <AutoComplete items={fields}
-                      size={'xs'}
-                      view={'clear'}
-                      className={filterItemStyle.filteConfiguratorControl}
-        />
-        <Select items={actions}
-                value={selectedAction}
-                onChange={({value}) => setSelectedAction(value)}
-                size={'xs'}
-                view={'clear'}
-                className={filterItemStyle.filteConfiguratorControl}
-        />
+        <div className={filterItemStyle.filteConfiguratorItemS}>
+            <Select items={connectionProperties}
+                    value={selectedConnectionProperty}
+                    onChange={({value}) => setSelectedConnectionProperty(value)}
+                    size={'xs'}
+                    view={'clear'}
+                    className={filterItemStyle.filteConfiguratorField}
+            />
+        </div>
+        <div className={filterItemStyle.filteConfiguratorItemL}>
+            <div className={filterItemStyle.filteConfiguratorField}>
+                target_values
+            </div>
+        </div>
+        <div className={filterItemStyle.filteConfiguratorItemS}>
+            <AutoComplete items={fields}
+                          size={'xs'}
+                          view={'clear'}
+                          width={'full'}
+                          className={filterItemStyle.filteConfiguratorControl}
+            />
+        </div>
+        <div className={filterItemStyle.filteConfiguratorItemS}>
+            <Select items={actions}
+                    value={selectedAction}
+                    onChange={({value}) => setSelectedAction(value)}
+                    size={'xs'}
+                    view={'clear'}
+                    className={filterItemStyle.filteConfiguratorField}
+            />
+        </div>
         <Button iconLeft={IconTrash}
                 onlyIcon
                 size={'xs'}
