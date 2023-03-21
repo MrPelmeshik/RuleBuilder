@@ -1,33 +1,33 @@
-.filteConfigurator {
+.filterConfigurator {
     display: inline-flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     flex-grow: 1;
-    column-gap: 1vw;
+    column-gap: 0.5vw;
 
     font-size: 0.75em;
 }
 
-.filteConfiguratorItemS {
+.filterConfiguratorItemS {
     /*border: 1px solid black;*/
-    flex: 1 1 auto;
+    flex: 1 1 100px;
 
     border-bottom: var(--control-border-width) solid var(--color-control-bg-border-default);
 }
-.filteConfiguratorItemM {
+.filterConfiguratorItemM {
     /*border: 1px solid black;*/
-    flex: 4 1 auto;
+    flex: 4 1 100px;
 
     border-bottom: var(--control-border-width) solid var(--color-control-bg-border-default);
 }
-.filteConfiguratorItemL {
+.filterConfiguratorItemL {
     /*border: 1px solid black;*/
-    flex: 10 1 auto;
+    flex: 20 1 100px;
 
     border-bottom: var(--control-border-width) solid var(--color-control-bg-border-default);
 }
 
-.filteConfiguratorField {
+.filterConfiguratorField {
     /*all: unset;*/
     /*min-width: 6em;*/
 
@@ -35,7 +35,7 @@
     /*border-bottom: var(--control-border-width) solid var(--color-control-bg-border-default);*/
 }
 
-.filteConfiguratorControl {
+.filterConfiguratorControl {
     /*all: unset;*/
     /*min-width: 4em;*/
 

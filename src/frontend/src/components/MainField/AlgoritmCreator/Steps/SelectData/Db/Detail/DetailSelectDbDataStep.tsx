@@ -174,7 +174,7 @@ export const DetailSelectDbDataStep
                         placeholder={'Выберите источник'}
                         form={'round'}
                         view={'clear'}
-                        size={'s'}
+                        size={'xs'}
                         items={sourcesItems ?? []}
                         value={sourceItem}
                         onChange={({value}) => setSourceItem(value)}
@@ -186,7 +186,7 @@ export const DetailSelectDbDataStep
                         placeholder={'Выберите схему / БД'}
                         form={'round'}
                         view={'clear'}
-                        size={'s'}
+                        size={'xs'}
                         items={schemasItems}
                         value={schemaItem}
                         onChange={({value}) => setSchemaItem(value)}
@@ -199,7 +199,7 @@ export const DetailSelectDbDataStep
                         placeholder={'Выберите таблицу'}
                         form={'round'}
                         view={'clear'}
-                        size={'s'}
+                        size={'xs'}
                         items={tablesItems}
                         value={tableItem}
                         onChange={({value}) => setTableItem(value)}

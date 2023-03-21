@@ -3,3 +3,4 @@ __pycache__
 src/backend/env
 settings.json
 src/backend/logs/*
+src/frontend-test

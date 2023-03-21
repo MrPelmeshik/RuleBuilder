@@ -1,0 +1,6 @@
+.filterComplexItemOpenBracketBlock {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    column-gap: 1vh;
+}

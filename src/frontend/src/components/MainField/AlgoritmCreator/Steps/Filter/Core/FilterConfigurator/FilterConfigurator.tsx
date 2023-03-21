@@ -4,6 +4,7 @@ import {FilterComplexItem} from "./FilterComplexItem/FilterComplexItem";
 import {SelectDbDataStepSettingsType} from "../../../SelectData/Db/Types/SelectDbDataStepSettingsType";
 import {FilterConfigType} from "../Type/FilterConfigType";
 import {FilterItemType} from "../Type/FilterItemType";
+import {Button} from "@consta/uikit/Button";
 
 
 
@@ -11,6 +12,7 @@ export const FilterConfigurator
     :React.FC<{stepSettings: SelectDbDataStepSettingsType}>
     = ({stepSettings}) =>
 {
+    const [isEditMode, setIsEditMode] = useState<boolean>(true)
     const [mainFilterConfig, setMainFilterConfig] = useState<FilterConfigType[] | FilterItemType[]>(stepSettings.filters && stepSettings.filters.filters ? stepSettings.filters.filters : [])
     const [deletedFilterId, setDeletedFilterId] = useState<number | null>()
 
@@ -24,6 +26,7 @@ export const FilterConfigurator
     const [content, setContent] = useState<JSX.Element[]>([
         <FilterComplexItem id={getNextFilterItemId()}
                            key={getNextFilterItemId()}
+                           isEditMode={isEditMode}
                            filterConfig={mainFilterConfig}
                            setParentDeletedFilterById={setDeletedFilterId}
                            getNextFilterItemIdOnParentLevel={getNextFilterItemId}
@@ -57,6 +60,7 @@ export const FilterConfigurator
         setContent([
             <FilterComplexItem id={getNextFilterItemId()}
                                key={getNextFilterItemId()}
+                               isEditMode={isEditMode}
                                filterConfig={mainFilterConfig}
                                setParentDeletedFilterById={setDeletedFilterId}
                                getNextFilterItemIdOnParentLevel={getNextFilterItemId}
@@ -65,7 +69,16 @@ export const FilterConfigurator
             />])
     }, [JSON.stringify(mainFilterConfig), JSON.stringify(stepSettings.metaData)])
 
-    return <div className={filterConfiguratorStyle.filterComplex}>
-        {content}
+    return <div className={filterConfiguratorStyle.baseBlock}>
+        <div className={filterConfiguratorStyle.editTools}>
+            <Button label={`Переключить в режим ${isEditMode ? 'редактирования' : 'просмотра'}`}
+                    size={'xs'}
+                    view={'secondary'}
+                    onClick={() => setIsEditMode(!isEditMode)}
+            />
+        </div>
+        <div className={filterConfiguratorStyle.filterComplex}>
+            {content}
+        </div>
     </div>
 }

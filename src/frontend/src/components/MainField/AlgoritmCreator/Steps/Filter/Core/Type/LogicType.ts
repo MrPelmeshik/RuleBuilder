@@ -1,4 +1,4 @@
-export interface ComparisonType {
+export interface LogicType {
     id: number
     label: string
     name: string

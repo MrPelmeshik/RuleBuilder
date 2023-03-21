@@ -1,7 +1,15 @@
+.baseBlock {
+
+}
+
+.editTools {
+    padding-bottom: 1vw;
+}
+
 .filterComplex {
     display: flex;
     flex-direction: column;
-    row-gap: 1vh;
+    row-gap: 0.5vh;
     /*align-items: flex-start;*/
     flex-grow: 1;
 

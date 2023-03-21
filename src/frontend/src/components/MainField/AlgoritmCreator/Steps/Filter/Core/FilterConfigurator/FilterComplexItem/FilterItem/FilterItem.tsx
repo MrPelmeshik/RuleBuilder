@@ -13,6 +13,11 @@ import {Tag} from "@consta/uikit/Tag";
 import {SelectDbDataStepSettingsType} from "../../../../../SelectData/Db/Types/SelectDbDataStepSettingsType";
 import {LogicTypeList} from "../../../Type/LogicTypeList";
 import {ComparisonTypeList} from "../../../Type/ComparisonTypeList";
+import {LogicType} from "../../../Type/LogicType";
+import {SelectorTargetValues} from "./SelectorTargetValues/SelectorTargetValues";
+import {ColumnMetaType} from "../../../../../SelectData/Db/Types/ColumnMetaType";
+import cloneDeep from "lodash.clonedeep";
+import {TargetValueType} from "../../../Type/TargetValueType";
 
 
 export const FilterItem
@@ -21,11 +26,10 @@ export const FilterItem
     const [fields, setFields] = useState<SelectItemType[]>([])
     const [selectedField, setSelectedField] = useState<SelectItemType | null>()
 
-    const [actions, setActions] = useState<SelectItemType[]>([])
-    const [selectedAction, setSelectedAction] = useState<SelectItemType | null>()
-
     const [connectionProperties, setConnectionProperties] = useState<SelectItemType[]>([])
     const [selectedConnectionProperty, setSelectedConnectionProperty] = useState<SelectItemType | null>()
+
+    const [logicType, setLogicType] = useState<LogicType>(LogicTypeList[0])
 
     useEffect(() => {
         setFields(
@@ -34,62 +38,62 @@ export const FilterItem
                 label: column.columnName
             })) ?? []
         )
-        setActions(
-            LogicTypeList.map((logicType, index) => ({
-                id: index,
-                label: logicType
-            }))
-        )
         setConnectionProperties(
-            ComparisonTypeList.map((comparisonType, index) => ({
-                id: index,
+            ComparisonTypeList.map(comparisonType => ({
+                id: comparisonType.id,
                 label: comparisonType.label
             }))
         )
+
+        // region init state
+
+        if (filterItem.ckeckedField)
+            setSelectedField({
+                id: fields.filter(field => field.label === filterItem.ckeckedField?.columnName)[0].id ?? -1,
+                label: filterItem.ckeckedField.columnName
+            })
+        setLogicType(filterItem.logicConnetor ?? LogicTypeList[1])
+
+        // endregion
     }, [])
 
-    return <div className={filterItemStyle.filteConfigurator}>
+    useEffect(() => {
+        filterItem.logicConnetor = logicType
+    }, [logicType])
+
+    const switchComparisonType = () => {
+        if (logicType === LogicTypeList[1]) {
+            filterItem.comparisonOperator = LogicTypeList[2]
+            setLogicType(filterItem.comparisonOperator)
+        } else if (logicType === LogicTypeList[2]) {
+            filterItem.comparisonOperator = LogicTypeList[1]
+            setLogicType(filterItem.comparisonOperator)
+        } else
+            throw new Error(`Incorrect comparison type: ${logicType.label}`)
+    }
+
+    return <div className={filterItemStyle.filterConfigurator}>
         {/*<Tag label={'id:' + id} size={'xs'} mode={'info'} />*/}
-        <div className={filterItemStyle.filteConfiguratorItemM}>
-            <Select items={fields}
-                    value={selectedField}
-                    onChange={({value}) => setSelectedField(value)}
-                    size={'xs'}
-                    view={'clear'}
-                    className={filterItemStyle.filteConfiguratorField}
-            />
-        </div>
-        <div className={filterItemStyle.filteConfiguratorItemS}>
-            <Select items={connectionProperties}
-                    value={selectedConnectionProperty}
-                    onChange={({value}) => setSelectedConnectionProperty(value)}
-                    size={'xs'}
-                    view={'clear'}
-                    className={filterItemStyle.filteConfiguratorField}
-            />
-        </div>
-        <div className={filterItemStyle.filteConfiguratorItemL}>
-            <div className={filterItemStyle.filteConfiguratorField}>
-                target_values
-            </div>
-        </div>
-        <div className={filterItemStyle.filteConfiguratorItemS}>
-            <AutoComplete items={fields}
-                          size={'xs'}
-                          view={'clear'}
-                          width={'full'}
-                          className={filterItemStyle.filteConfiguratorControl}
-            />
-        </div>
-        <div className={filterItemStyle.filteConfiguratorItemS}>
-            <Select items={actions}
-                    value={selectedAction}
-                    onChange={({value}) => setSelectedAction(value)}
-                    size={'xs'}
-                    view={'clear'}
-                    className={filterItemStyle.filteConfiguratorField}
-            />
-        </div>
+        <Select className={filterItemStyle.filterConfiguratorItemM}
+                items={fields}
+                value={selectedField}
+                onChange={({value}) => setSelectedField(value)}
+                size={'xs'}
+                view={'clear'}
+        />
+        <Select className={filterItemStyle.filterConfiguratorItemS}
+                items={connectionProperties}
+                value={selectedConnectionProperty}
+                onChange={({value}) => setSelectedConnectionProperty(value)}
+                size={'xs'}
+                view={'clear'}
+        />
+        <SelectorTargetValues fields={fields} filterItem={filterItem} />
+        <Button label={logicType.label}
+                size={'xs'}
+                view={'ghost'}
+                onClick={() => switchComparisonType()}
+        />
         <Button iconLeft={IconTrash}
                 onlyIcon
                 size={'xs'}
