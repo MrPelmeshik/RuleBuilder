@@ -127,6 +127,15 @@ async def getColumnsByTable(tableId: int):
 
 # endregion
 
+# region API convert JSON to python file
+
+@app.get("/getPythonFile")
+async def getPythonFile():
+    """ Получение python файла на основе формализованного алгоритма """
+    pass
+
+# endregion
+
 if __name__ == "__main__":
 
     logging.info('Start')

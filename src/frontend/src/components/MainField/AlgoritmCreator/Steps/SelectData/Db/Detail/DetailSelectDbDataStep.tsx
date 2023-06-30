@@ -23,6 +23,9 @@ import {IconComponent} from "@consta/icons/Icon";
 import {Tabs} from "@consta/uikit/Tabs";
 import {IconFunnel} from "@consta/icons/IconFunnel";
 import {FilterConfigType} from "../../../Filter/Core/Type/FilterConfigType";
+import {Switch} from "@consta/uikit/Switch";
+import {IconPriceLabel} from "@consta/icons/IconPriceLabel";
+import {TextField} from "@consta/uikit/TextField";
 
 
 
@@ -39,6 +42,10 @@ const pages: PageItem[] = [
   {
     name: 'Фильтрация',
     image: IconFunnel,
+  },
+  {
+    name: 'Аннотация',
+    image: IconPriceLabel,
   }
 ];
 
@@ -63,6 +70,9 @@ export const DetailSelectDbDataStep
 
     const [curCurPage, setCurPage] = useState<PageItem>(pages[0])
     const [pageContent, setPageContent] = useState<JSX.Element>(<></>)
+
+      const [aliase, setAliase] = useState<string | null>('ТЕСТОВЫЕ_ДАННЫЕ_1');
+      const handleChangeAliase = ({ value }: { value: string | null }) => setAliase(value);
 
     // region get data from API
 
@@ -211,6 +221,19 @@ export const DetailSelectDbDataStep
         }
         else if (curCurPage.name === 'Фильтрация') {
             content = <FilterConfigurator stepSettings={stepSettings}/>
+        }
+        else if (curCurPage.name === 'Аннотация') {
+            content = <>
+                <Text size={'xs'}>
+                    <p>Имя:</p>
+                    <TextField size={'xs'}
+                               //className={detailSelectDbDataStepStyle.inputFilterParameter}
+                               onChange={handleChangeAliase}
+                               value={aliase}
+                    />
+                </Text>
+                <Table key={'columnTypes'} dataPreview={columns}/>
+            </>
         }
         setPageContent(content)
     }, [

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import tableStyle from './Table.module.css'
+import {Switch} from "@consta/uikit/Switch";
 
 export const Table:React.FC<{dataPreview:any[] | null}> = ({dataPreview}) => {
     const [tableHeaders, setTableHeaders] = useState<string[]>(['title'])
@@ -22,8 +23,15 @@ export const Table:React.FC<{dataPreview:any[] | null}> = ({dataPreview}) => {
 
     useEffect(() => {
         setHeader(() => tableHeaders?.map(hdr => <th key={hdr}>{hdr}</th>))
-        setData(() => tableData?.map((row, i) => <tr key={i}>{tableHeaders?.map((hdr, j) =>
-            <td key={j}>{row[hdr]}</td>)}</tr>))
+        setData(() => tableData?.map((row, i) => <tr key={i}>{tableHeaders?.map((hdr, j) => {
+                if (hdr === 'isActive') {
+                    return <td key={j}><Switch size={'s'}
+                                               checked={row[hdr]} /></td>
+                }
+                else {
+                    return <td key={j}>{row[hdr]}</td>
+                }
+        })}</tr>))
     }, [tableHeaders, tableData])
 
     return <div className={tableStyle.tableBlock}>

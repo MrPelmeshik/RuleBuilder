@@ -1,0 +1,39 @@
+.menuField {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    flex-grow: 1;
+    row-gap: 2vh;
+
+    background-color: var(--color-bg-default);
+    box-shadow: var(--color-control-bg-border-default) 0 0 15px 0vw;
+    border-radius: var(--rounded-m);
+    padding: var(--rounded-m);
+}
+
+.menuGroup {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1vh;
+}
+
+.menuGroupHeader {
+    border-bottom: var(--control-border-width) solid var(--color-control-bg-border-default);
+}
+
+.menuGroupList {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1vh;
+}
+
+.menuGroupListShadow {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1vh;
+    padding: var(--rounded-xs);
+    border-radius: var(--rounded-m);
+    /*border: var(--control-border-width) solid var(--color-control-bg-border-default);*/
+    background-color: var(--color-bg-secondary);
+}

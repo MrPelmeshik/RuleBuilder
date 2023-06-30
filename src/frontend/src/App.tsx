@@ -5,6 +5,7 @@ import {Theme} from "@consta/uikit/Theme";
 import {Layout} from "@consta/uikit/Layout";
 import {getTheme, Header, ThemeItem, themes} from './components/Header/Header'
 import {MainField} from "./components/MainField/MainField";
+import {Menu} from "./components/MainField/Menu/Menu";
 
 
 export const App = () => {
@@ -16,9 +17,9 @@ export const App = () => {
         <Header theme={theme} setTheme={setTheme}/>
         <Layout className={addStyle.main}>
           <Layout flex={1} className={addStyle.block}>
-            menu
+            <Menu />
           </Layout>
-          <Layout flex={8} className={addStyle.block}>
+          <Layout flex={6} className={addStyle.block}>
             <MainField />
           </Layout>
         </Layout>

@@ -24,6 +24,10 @@ import {IconWrench} from "@consta/icons/IconWrench";
 import {IconSearchStroked} from "@consta/icons/IconSearchStroked";
 import {IconGrouping} from "@consta/icons/IconGrouping";
 import {IconTest} from "@consta/icons/IconTest";
+import {IconEdit} from "@consta/icons/IconEdit";
+import {IconLogicalElement} from "@consta/icons/IconLogicalElement";
+import {IconRevert} from "@consta/icons/IconRevert";
+import {PreviewStepLoop} from "../Steps/Loop/Preview/PreviewStepLoop";
 
 
 export const AlgorithmCreatorMenu
@@ -56,6 +60,14 @@ export const AlgorithmCreatorMenu
                                           setDeletedStepId={setDeletedStepId}
                 />, nextStep)
                 break;
+            case StepsEnum.loopStep:
+                nextStep = new StepType(nextStepId, nextStepId, StepsEnum.loopStep, new HierarchyTestStepSettingsType())
+                addStep(<PreviewStepLoop key={nextStepId}
+                                          id={nextStepId}
+                                          stepSettings={nextStep.settings}
+                                          setDeletedStepId={setDeletedStepId}
+                />, nextStep)
+                break;
             default:
                 throw new Error(`Нет такого шага! ${type}`)
         }
@@ -66,7 +78,7 @@ export const AlgorithmCreatorMenu
             Добаление шага:
         </Text>
         <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuListItem}>
-            <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroup}>
+            {/*<div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroup}>
                 <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroupHeader}>
                     <Text view={'secondary'} size={'xs'}>
                         <IconTest size={'xs'} />
@@ -83,7 +95,7 @@ export const AlgorithmCreatorMenu
                         iconLeft={IconTest}
                     />
                 </div>
-            </div>
+            </div>*/}
             <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroup}>
                 <div className={algorithmCreatorMenuStyle.algorithmCreatorMenuGroupHeader}>
                     <Text view={'secondary'} size={'xs'}>
@@ -173,7 +185,7 @@ export const AlgorithmCreatorMenu
                         size={'xs'}
                         view={'secondary'}
                         iconLeft={IconBackward}
-                        disabled={true}
+                        // disabled={true}
                     />
                     <Button
                         label={'Правое соединение'}
@@ -183,7 +195,7 @@ export const AlgorithmCreatorMenu
                         size={'xs'}
                         view={'secondary'}
                         iconLeft={IconForward}
-                        disabled={true}
+                        // disabled={true}
                     />
                     <Button
                         label={'Полное соединение'}
@@ -193,7 +205,7 @@ export const AlgorithmCreatorMenu
                         size={'xs'}
                         view={'secondary'}
                         iconLeft={IconDown}
-                        disabled={true}
+                        // disabled={true}
                     />
                     <Button
                         label={'Перекрестное соединение'}
@@ -203,7 +215,7 @@ export const AlgorithmCreatorMenu
                         size={'xs'}
                         view={'secondary'}
                         iconLeft={IconTop}
-                        disabled={true}
+                        // disabled={true}
                     />
                 </div>
             </div>
@@ -222,7 +234,7 @@ export const AlgorithmCreatorMenu
                         size={'xs'}
                         view={'secondary'}
                         iconLeft={IconFunnel}
-                        disabled={true}
+                        // disabled={true}
                     />
                     <Button
                         label={'Модифицировать'}
@@ -232,27 +244,17 @@ export const AlgorithmCreatorMenu
                         size={'xs'}
                         view={'secondary'}
                         iconLeft={IconWrench}
-                        disabled={true}
+                        // disabled={true}
                     />
                     <Button
-                        label={'Добавить столбец'}
+                        label={'Добавить константу'}
                         title={''}
                         onClick={() => {
                         }}
                         size={'xs'}
                         view={'secondary'}
                         iconLeft={IconAdd}
-                        disabled={true}
-                    />
-                    <Button
-                        label={'Получить значение'}
-                        title={''}
-                        onClick={() => {
-                        }}
-                        size={'xs'}
-                        view={'secondary'}
-                        iconLeft={IconCalculator}
-                        disabled={true}
+                        // disabled={true}
                     />
                     <Button
                         label={'Группировка'}
@@ -262,7 +264,26 @@ export const AlgorithmCreatorMenu
                         size={'xs'}
                         view={'secondary'}
                         iconLeft={IconGrouping}
-                        disabled={true}
+                        // disabled={true}
+                    />
+                    <Button
+                        label={'Цикл по данным'}
+                        title={''}
+                        onClick={() => addNextStep(StepsEnum.loopStep)}
+                        size={'xs'}
+                        view={'secondary'}
+                        iconLeft={IconRevert}
+                        // disabled={true}
+                    />
+                    <Button
+                        label={'Ветвление (по условию)'}
+                        title={''}
+                        onClick={() => {
+                        }}
+                        size={'xs'}
+                        view={'secondary'}
+                        iconLeft={IconLogicalElement}
+                        // disabled={true}
                     />
                 </div>
             </div>

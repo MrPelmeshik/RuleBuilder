@@ -1,0 +1,31 @@
+.app {
+  transition: transform .2s ease-in-out;
+  height: 100vh;
+  flex-grow: 1;
+
+  font-size: 1em;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  column-gap: 1vh;
+}
+
+.complexItem {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1vw;
+
+  height: 100vw;
+
+  background-color: lightgray;
+}
+
+.item {
+  display: flex;
+  width: fit-content;
+
+  background-color: gray;
+}

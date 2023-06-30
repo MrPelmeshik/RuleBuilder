@@ -1,0 +1,77 @@
+{
+  "id": 1,
+  "name": "Validation DB connections",
+  "version": 1,
+  "author": "Fedorov.IYu",
+  "description": "Все подключения к базам данных должны содержать авторизационные данные (логи и пароль)",
+  "algoritm": [
+    {
+      "stepType": "SelectData\\DB",
+      "stepName": "Получение подключений к БД",
+      "stepSettings": {
+        "input": {
+          "sourceItem": "test_db_01",
+          "schemaItem": "test_schema_01",
+          "tableItem": "test_table_01"
+        },
+        "output": {
+          "dataAlias": "connections",
+          "dataType": "array"
+        },
+        "params": {
+          "filters": {
+            ...
+          }
+        }
+      }
+    },
+    {
+      "stepType": "SetConstant",
+      "stepName": "Наименование контура локального тестирования",
+      "stepSettings": {
+        "output": {
+          "dataAlias": "localPath",
+          "dataType": "array",
+          "value": "LOCAL"
+        }
+      }
+    },
+    {
+      "stepType": "Filter",
+      "stepName": "Взять только публичные подключения (исключение подключений с авторизационными данными)",
+      "stepSettings": {
+        "input": {
+          "dataAlias": "connections",
+          "dataType": "array"
+        },
+        "output": {
+          "dataAlias": "filtered_connections",
+          "dataType": "array"
+        },
+        "params": {
+          "filters": {
+            ...
+          }
+        }
+      }
+    },
+    {
+      "stepType": "Validate",
+      "stepName": "Подключения к БД относятся к локальным тестам",
+      "stepSettings": {
+        "input": {
+          "dataAlias": "filtered_connections",
+          "dataType": "array"
+        },
+        "output": {
+          "stringTemplate": "Подключение {name} не имеет авторизационных данных и не относится к локальным тестам"
+        },
+        "params": {
+          "filters": {
+            ...
+          }
+        }
+      }
+    }
+  ]
+}

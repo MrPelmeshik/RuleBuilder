@@ -19,7 +19,7 @@ export const StepsHeader
         <StepSettingModal title={title} stepSettings={getCopyStepSettings(stepSettings)} saveNewSetting={saveNewSetting} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         <div className={mainFiledStyle.stepPreviewHeaderLeftSide}>
             {title}
-            <div className={mainFiledStyle.stepPreviewHeaderDetail}>{subTitle}</div>
+            <div className={mainFiledStyle.stepPreviewHeaderDetail}>subTitle{subTitle}</div>
         </div>
         <div className={mainFiledStyle.stepPreviewHeaderRightSide}>
             <Button iconRight={IconSettings}

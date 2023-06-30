@@ -9,7 +9,7 @@
 }
 
 .main {
-  gap: 4em;
+  gap: 2em;
   padding: 2vh 2vw;
 
   color: var(--color-typo-primary);
