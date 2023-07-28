@@ -1,0 +1,13 @@
+.stepSettingModal {
+    width: 70vw;
+    height: 70vh;
+    border-radius: var(--rounded-m);
+
+    color: var(--color-typo-primary);
+}
+
+.stepSettingModalDetail {
+    padding: var(--rounded-m);
+    flex-grow: 1;
+}
+

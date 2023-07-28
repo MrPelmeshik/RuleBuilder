@@ -1,0 +1,19 @@
+.app {
+  background-color: var(--color-bg-system);
+  transition: transform .2s ease-in-out;
+  height: 100vh;
+  flex-grow: 1;
+
+  font-size: 1em;
+  color: var(--color-typo-primary);
+}
+
+.main {
+  gap: 2em;
+  padding: 2vh 2vw;
+
+  color: var(--color-typo-primary);
+}
+
+.block {
+}

@@ -1,0 +1,39 @@
+.modalField {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    row-gap: 2vh;
+}
+
+.selectorSettingGroupHeader {
+    display: flex;
+    align-items: center;
+    column-gap: 1vw;
+    padding: 0.5vh 0;
+    /*border-bottom: var(--control-border-width) solid var(--color-control-bg-border-default);*/
+}
+
+.selectorSettingGroupContent {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    row-gap: 1vh;
+}
+
+.selectorBlock {
+    display: flex;
+    column-gap: 2vw;
+    white-space: nowrap;
+}
+
+.inputFilterParameter {
+    outline: none;
+    border-radius: var(--rounded-m);
+    box-sizing: border-box;
+    border: var(--control-border-width) solid var(--color-control-bg-border-default);
+}
+
+.inputFilterParameter:focus {
+    border: var(--control-border-width) solid var(--color-control-bg-border-default);
+}
+

@@ -1,0 +1,32 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    column-gap: 1vw;
+    padding: 2vh 3vw;
+    align-items: center;
+
+    box-shadow: var(--color-control-bg-border-default) 0 0 15px 0vw;
+    background-color: var(--color-bg-default);
+}
+
+.headerLeftSide {
+    display: flex;
+    flex-direction: row;
+    column-gap: 1vw;
+    align-items: center;
+}
+
+.headerRightSide {
+    display: flex;
+    flex-direction: row;
+    column-gap: 1vw;
+    align-items: center;
+    justify-content: right;
+    flex-grow: 1;
+}
+
+.headerTag {
+    color: var(--color-typo-brand);
+    border-radius: var(--rounded-m);
+    padding: var(--rounded-xs) var(--rounded-m);
+}

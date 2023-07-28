@@ -1,0 +1,169 @@
+{
+  "id": 1,
+  "name": "Test validation rule",
+  "version": 1,
+  "author": "Fedorov.IYu",
+  "description": "Все  значения в тестовом источнике должны иметь значение > 10",
+  "algoritm": [
+    {
+      "stepType": "SelectData\\DB",
+      "stepName": "Чтение данных с БД",
+      "stepSettings": {
+        "input": {
+          "sourceId": 1000,
+          "schemaId": 1000,
+          "tableId": 1000,
+          "includedFieldIds": [
+            "all"
+          ]
+        },
+        "output": {
+          "dataAlias": "testoviy_dannie_1",
+          "dataName": "ТЕСТОВЫЕ_ДАННЫЕ_1",
+          "dataType": "array"
+        },
+        "params": {
+          "filters": {
+            "id": 0,
+            "type": "filterComplexItem",
+            "filterConfig": [
+              {
+                "id": 1,
+                "type": "filterConfig",
+                "fieldId": "value",
+                "comparisonType": "isNotNull",
+                "targetValues": [],
+                "logicType": "AND"
+              },
+              {
+                "id": 2,
+                "type": "filterConfig",
+                "fieldId": null,
+                "comparisonType": null,
+                "targetValues": [],
+                "logicType": null
+              }
+            ],
+            "logicType": "AND"
+          }
+        }
+      }
+    },
+    {
+      "stepType": "LoopByArray",
+      "stepName": "Цикл",
+      "stepSettings": {
+        "input": {
+          "dataAlias": "testoviy_dannie_1",
+          "dataName": "ТЕСТОВЫЕ_ДАННЫЕ_1",
+          "dataType": "array"
+        },
+        "loopElement": {
+          "name": "ЗАПИСЬ",
+          "alias": "ROW"
+        },
+        "inputCondition": null,
+        "initialCondition": null,
+        "step": null,
+        "output": null,
+        "algoritm": [
+          {
+            "stepType": "Condition",
+            "stepName": "Условие",
+            "stepSettings": {
+              "input": {
+                "dataAlias": "ROW",
+                "dataName": "ЗАПИСЬ",
+                "dataType": "simple"
+              },
+              "filters": {
+                "id": 0,
+                "type": "filterComplexItem",
+                "filterConfig": [
+                  {
+                    "id": 1,
+                    "type": "filterConfig",
+                    "fieldId": "value",
+                    "comparisonType": "more",
+                    "targetValues": [
+                      10
+                    ],
+                    "logicType": "AND"
+                  },
+                  {
+                    "id": 2,
+                    "type": "filterConfig",
+                    "fieldId": null,
+                    "comparisonType": null,
+                    "targetValues": [],
+                    "logicType": null
+                  }
+                ],
+                "logicType": "AND"
+              },
+              "output": null,
+              "trueBranch": {
+                "algoritm": [
+                  {
+                    "stepType": "Validate",
+                    "stepName": "Проверить данные",
+                    "stepSettings": {
+                      "input": {
+                        "dataAlias": "ROW",
+                        "dataName": "ЗАПИСЬ",
+                        "dataType": "simple"
+                      },
+                      "output": null,
+                      "filters": {
+                        "id": 0,
+                        "type": "filterComplexItem",
+                        "filterConfig": [
+                          {
+                            "id": 1,
+                            "type": "filterConfig",
+                            "fieldId": "name",
+                            "comparisonType": "isNotNull",
+                            "targetValues": [],
+                            "logicType": "AND"
+                          },
+                          {
+                            "id": 2,
+                            "type": "filterConfig",
+                            "fieldId": null,
+                            "comparisonType": null,
+                            "targetValues": [],
+                            "logicType": null
+                          }
+                        ],
+                        "logicType": "AND"
+                      },
+                      "algoritm": [
+                        {
+                          "stepType": "WriteResult",
+                          "stepName": "Запись результата",
+                          "stepSettings": {
+                            "tableId": 10,
+                            "input": {
+                              "dataAlias": "ROW",
+                              "dataName": "ЗАПИСЬ",
+                              "dataType": "simple"
+                            },
+                            "temporaryString": "Целевая запись (value>10) с {id} не имеет имени",
+                            "output": {}
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "falseBranch": {
+                "algoritm": []
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

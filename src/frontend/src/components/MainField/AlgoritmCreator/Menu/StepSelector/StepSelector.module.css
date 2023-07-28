@@ -1,0 +1,6 @@
+.stepSelector {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1vh;
+    flex-grow: 1;
+}

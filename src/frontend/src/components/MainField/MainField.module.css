@@ -1,0 +1,67 @@
+.mainField {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    flex-grow: 1;
+
+    background-color: var(--color-bg-default);
+    box-shadow: var(--color-control-bg-border-default) 0 0 15px 0vw;
+    border-radius: var(--rounded-m);
+}
+
+
+.algoritmFlow {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1vh;
+    overflow-y: scroll;
+    flex-grow: 1;
+    padding: var(--rounded-m);
+    font-size: 0.8em;
+    color: var(--color-typo-secondary);
+}
+
+
+.stepPreview {
+    border-radius: var(--rounded-m);
+
+    background-color: var(--color-bg-secondary);
+    color: var(--color-typo-primary);
+}
+
+.stepPreviewHeader {
+    display: flex;
+    flex-direction: row;
+    column-gap: 1vw;
+    border-radius: var(--rounded-m) var(--rounded-m) 0 0;
+    padding: var(--rounded-m);
+    align-items: center;
+
+    background-color: var(--color-bg-ghost);
+}
+
+.stepPreviewHeaderDetail {
+    font-weight: normal;
+    color: var(--color-typo-secondary)
+}
+
+.stepPreviewHeaderRightSide {
+    display: flex;
+    justify-content: right;
+    flex-grow: 1;
+    column-gap: 0.5vw;
+}
+
+.stepPreviewHeaderLeftSide {
+    display: flex;
+    flex-direction: row;
+    column-gap: 1em;
+    flex-grow: 10;
+
+    font-weight: bold;
+}
+
+.stepPreviewDescription {
+    padding: var(--rounded-m);
+}

@@ -1,0 +1,83 @@
+{
+  "id": 1,
+  "name": "Test validation rule",
+  "version": 1,
+  "author": "Fedorov.IYu",
+  "description": "Все  значения в тестовом источнике должны иметь значение > 10",
+  "algoritm": [
+    {
+      "stepType": "SelectData\\DB",
+      "stepName": "Получение подключений к БД",
+      "stepSettings": {
+        "input": {
+          "sourceId": 1,
+          "schemaId": 3,
+          "tableId": 10,
+          "includedFieldIds": []
+        },
+        "output": {
+          "dataAlias": "testoviy_nabor_1",
+          "dataName": "ТЕСТОВЫЙ_НАБОР_1",
+          "dataType": "array"
+        },
+        "params": {
+          "filters": {
+            "id": 0,
+            "type": "filterComplexItem",
+            "filterConfig": [
+              {
+                "id": 1,
+                "type": "filterConfig",
+                "fieldId": 43,
+                "comparisonType": "isNotNull",
+                "targetValues": [],
+                "logicType": "AND"
+              },
+              {
+                "id": 2,
+                "type": "filterConfig",
+                "fieldId": 43,
+                "comparisonType": "more",
+                "targetValues": [
+                  10
+                ],
+                "logicType": "AND"
+              }
+            ],
+            "logicType": "AND"
+          }
+        }
+      }
+    },
+    {
+      "stepType": "Validate",
+      "stepName": "Проверка",
+      "stepSettings": {
+        "input": {
+          "dataAlias": "testoviy_nabor_1",
+          "dataName": "ТЕСТОВЫЙ_НАБОР_1",
+          "dataType": "array"
+        },
+        "output": {
+          "dataAlias": "errors_rows_in_testoviy_nabor_1",
+          "dataName": "ОШИБОЧНЫЕ_ДАННЫЕ_В_ТЕСТОВЫЙ_НАБОР_1",
+          "dataType": "array"
+        }
+      }
+    },
+    {
+      "stepType": "WriteResult",
+      "stepName": "Запись результата",
+      "stepSettings": {
+        "tableId": 10,
+        "input": {
+          "dataAlias": "errors_rows_in_testoviy_nabor_1",
+          "dataName": "ОШИБОЧНЫЕ_ДАННЫЕ_В_ТЕСТОВЫЙ_НАБОР_1",
+          "dataType": "array"
+        },
+        "temporaryString": "Значение {id} в источнике {source}.{schema}.{table} имеет значение больше 10",
+        "output": { }
+      }
+    }
+  ]
+}

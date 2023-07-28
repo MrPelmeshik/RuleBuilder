@@ -1,0 +1,7 @@
+.set-item-modal-window {
+    background-color: var(--color-bg-default);
+    width: 100%;
+    height: 80vh;
+    border-radius: var(--rounded-m);
+    padding: var(--rounded-m);
+}

@@ -1,0 +1,36 @@
+.algorithmCreatorMenu {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2vh;
+    max-width: 10vw;
+    overflow-wrap: anywhere;
+
+    background-color: var(--color-bg-secondary);
+    padding: var(--rounded-m);
+}
+
+.algorithmCreatorMenuListItem {
+    /*overflow-y: scroll;*/
+    display: flex;
+    flex-direction: column;
+    row-gap: 2vh;
+}
+
+.algorithmCreatorMenuGroup {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1vh;
+}
+
+.algorithmCreatorMenuGroupHeader {
+    flex-grow: 1;
+    border-bottom: var(--control-border-width) solid var(--color-control-bg-border-default);
+}
+
+.algorithmCreatorMenuGroupList {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1vh;
+}

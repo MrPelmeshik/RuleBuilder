@@ -1,0 +1,43 @@
+.filteConfigurator {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    column-gap: 1vw;
+
+    font-size: 0.75em;
+}
+
+.filteConfiguratorItemS {
+    /*border: 1px solid black;*/
+    flex: 1 1 auto;
+
+    border-bottom: var(--control-border-width) solid var(--color-control-bg-border-default);
+}
+.filteConfiguratorItemM {
+    /*border: 1px solid black;*/
+    flex: 4 1 auto;
+
+    border-bottom: var(--control-border-width) solid var(--color-control-bg-border-default);
+}
+.filteConfiguratorItemL {
+    /*border: 1px solid black;*/
+    flex: 10 1 auto;
+
+    border-bottom: var(--control-border-width) solid var(--color-control-bg-border-default);
+}
+
+.filteConfiguratorField {
+    /*all: unset;*/
+    /*min-width: 6em;*/
+
+    /*background-color: var(--color-bg-ghost);*/
+    /*border-bottom: var(--control-border-width) solid var(--color-control-bg-border-default);*/
+}
+
+.filteConfiguratorControl {
+    /*all: unset;*/
+    /*min-width: 4em;*/
+
+    /*border-bottom: var(--control-border-width) solid var(--color-control-bg-border-default);*/
+}

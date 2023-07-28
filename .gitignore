@@ -1,5 +1,5 @@
 __pycache__
 .idea
-env
+src/backend/env
 settings.json
-src/logs/*
+src/backend/logs/*

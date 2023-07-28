@@ -1,0 +1,1 @@
+pip freeze | %{$_.split('==')[0]} | %{py -m pip install --upgrade $_}

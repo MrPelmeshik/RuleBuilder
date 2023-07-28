@@ -1,0 +1,13 @@
+.grid-field {
+    background-color: var(--color-bg-default);
+    width: 100%;
+    height: 80vh;
+    box-shadow: var(--color-control-bg-border-default) 0 0 15px 0vw;
+    border-radius: var(--rounded-m);
+}
+
+.grid-element {
+    background-color: var(--color-bg-ghost);
+    box-shadow: var(--color-control-bg-border-default) 0 0 15px 0vw;
+    border-radius: var(--rounded-m);
+}

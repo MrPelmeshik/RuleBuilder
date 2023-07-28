@@ -1,0 +1,30 @@
+.tableDataPreview {
+    background-color: var(--color-bg-default);
+    border-collapse: collapse;
+    width: 100%;
+
+    font-size: 0.75em;
+}
+
+.tableBlock {
+    flex-grow: 1;
+    height: 10vh;
+    overflow: scroll;
+
+}
+
+.tableDataBody {
+}
+
+.tableDataPreview th {
+    background-color: var(--color-bg-ghost);
+}
+
+.tableDataPreview tr {
+    border: solid 1px var(--color-control-bg-border-default);
+}
+
+
+.tableDataPreview tr:nth-child(odd) {
+    background-color: var(--color-bg-ghost);
+}
